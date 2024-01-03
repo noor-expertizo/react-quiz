@@ -1,0 +1,103 @@
+"use client"; // This is a client component
+
+import ProgressBar from "@/components/ProgressBar";
+import Question from "@/components/Question";
+import QuestionHeading from "@/components/QuestionHeading";
+import StarRating from "@/components/StarRating";
+import StepperProgressBar from "@/components/StepperProgressBar";
+import { decodeURIComponentForStringOrArray } from "@/helpers/helpers";
+import { useQuizStore } from "@/store/store";
+import { useEffect, useState } from "react";
+
+export default function Home() {
+  const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
+  const [userAnswers, setUserAnswers] = useState<any[]>([]);
+
+  const { questions, fetchQuestions } = useQuizStore();
+
+  useEffect(() => {
+    const fetchData = async () => {
+      const fetchedQuestions = await fetchQuestions();
+      console.log("quest", fetchedQuestions);
+    };
+
+    fetchData();
+  }, [fetchQuestions]);
+
+
+  const correctAnswers = userAnswers && userAnswers.length > 0 && userAnswers.reduce(
+    (acc, next) => acc + next
+  );
+
+  
+
+  const maxScorePercent = 75;
+  const correctPercent = Math.min(
+    parseFloat(((correctAnswers / questions.length) * 100).toFixed(2)),
+    maxScorePercent
+  );
+  const currentQuestion = questions[currentQuestionIndex];
+
+  let newRating = 0;
+
+  if (currentQuestion?.difficulty === "easy") {
+    newRating = 1;
+  } else if (currentQuestion?.difficulty === "medium") {
+    newRating = 2; 
+  } else if (currentQuestion?.difficulty === "hard") {
+    newRating = 3;
+  } else {
+    newRating = 5;
+  }
+
+  const encodedCategoryString = currentQuestion?.category;
+
+  let decodedCategoryString;
+  if (encodedCategoryString) {
+    decodedCategoryString = decodeURIComponent(
+      encodedCategoryString?.replace(/%\d+/g, " ")
+    );
+  } else {
+    decodedCategoryString = "";
+  }
+
+  return (
+    <>
+      <div className="mb-8">
+        <div className="mb-8">
+          <StepperProgressBar percent={currentQuestionIndex} />
+        </div>
+        <div className="flex flex-col justify-center items-center">
+          <div>
+            <div className="mb-8">
+              <QuestionHeading
+                count={currentQuestionIndex}
+                total={questions.length}
+                title={
+                  currentQuestion?.category &&
+                  decodeURIComponentForStringOrArray(currentQuestion?.category)
+                }
+              />
+              <StarRating
+                totalStars={5}
+                rating={newRating}
+              />
+            </div>
+            <div>
+              <Question
+                currentQuestionIndex={currentQuestionIndex}
+                setCurrentQuestionIndex={setCurrentQuestionIndex}
+                setUserAnswers={setUserAnswers}
+                userAnswers={userAnswers}
+                questions={questions}
+              />
+            </div>
+            <div className="mt-4">
+              <ProgressBar percent={correctPercent} maxPercent={75} />
+            </div>
+          </div>
+        </div>
+      </div>
+    </>
+  );
+}
