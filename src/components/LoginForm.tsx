@@ -35,7 +35,7 @@ const LoginForm: React.FC = () => {
       const user = useAuthStore.getState().user;
 
       if (user) {
-        router.push('/home');
+        router.push('/');
       } else {
         alert("Invalid username or password");
       }

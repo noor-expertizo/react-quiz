@@ -20,6 +20,7 @@ const Question: React.FC<QuestionInterface> = ({
   setUserAnswers,
   questions,
 }: QuestionInterface) => {
+  debugger
   const [selectedOption, setSelectedOption] = useState<number | null>(null);
   // const [selectedOptionAnswer, setSelectedOptionAnswer] = useState<
   //   string | null
@@ -27,7 +28,6 @@ const Question: React.FC<QuestionInterface> = ({
   const [isSelected, setIsSelected] = useState(0);
 
   const currentQuestion = questions[currentQuestionIndex];
-
   let updatedArr: any = [];
   updatedArr.push(
     currentQuestion?.correct_answer,
@@ -41,18 +41,18 @@ const Question: React.FC<QuestionInterface> = ({
     decodeURIComponentForStringOrArray(updatedArr);
 
   const shuffledArray = shuffleArray([...updatedArr]);
-  console.log(shuffledArray, "suffle")
+  console.log(shuffledArray, "suffle");
 
   let CorrectedAnswer: boolean = false;
 
   const handleAnswer = (selectedOptionIndex: number) => {
     setSelectedOption(selectedOptionIndex);
-
     const options = shuffledArray;
     const selectedOption = options[selectedOptionIndex];
     const decodedStr = decodeURIComponentForStringOrArray(
       currentQuestion?.correct_answer
     );
+
     const isCorrect = selectedOption === decodedStr;
 
     setUserAnswers([...userAnswers, isCorrect ? 1 : 0]);
@@ -80,6 +80,9 @@ const Question: React.FC<QuestionInterface> = ({
   } else {
     decodedCategoryString = "";
   }
+
+  console.log(questions)
+  
 
   return (
     <>
@@ -129,7 +132,7 @@ const Question: React.FC<QuestionInterface> = ({
               : null}
           </p>
           <div>
-            {currentQuestionIndex === (questions.length -1) ? (
+            {currentQuestionIndex === questions.length - 1 ? (
               <Button variant="success" onClick={() => restartQuiz()}>
                 Restart
               </Button>

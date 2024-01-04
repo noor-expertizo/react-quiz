@@ -17,8 +17,8 @@ export const useQuizStore = create<QuizStore>((set) => ({
   questions: [],
   fetchQuestions: async () => {
     try {
-      // const response = await fetch("http://localhost:3004/data");
-      const response = await fetch("/.netlify/functions/questions");
+      const response = await fetch("http://localhost:3004/data");
+      // const response = await fetch("/.netlify/functions/questions");
       const data = await response.json();
       set({ questions: data });
       return data; // Return the fetched data
