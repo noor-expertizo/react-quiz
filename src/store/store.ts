@@ -1,4 +1,4 @@
-import create from 'zustand';
+import create from "zustand";
 
 interface QuestionItem {
   category: string;
@@ -17,18 +17,17 @@ export const useQuizStore = create<QuizStore>((set) => ({
   questions: [],
   fetchQuestions: async () => {
     try {
-      const response = await fetch('http://localhost:3004/data');
+      // const response = await fetch("http://localhost:3004/data");
+      const response = await fetch("/.netlify/functions/questions");
       const data = await response.json();
       set({ questions: data });
       return data; // Return the fetched data
     } catch (error) {
-      console.error('Error fetching questions:', error);
+      console.error("Error fetching questions:", error);
       return [];
     }
   },
 }));
-
-
 
 interface User {
   username: string;
@@ -44,21 +43,22 @@ interface AuthStore {
 export const useAuthStore = create<AuthStore>((set) => ({
   user: null,
   loginUser: (username, password) => {
-    const users = JSON.parse(localStorage.getItem('users') || '[]');
-    const user = users.find((u: User) => u.username === username && u.password === password);
+    const users = JSON.parse(localStorage.getItem("users") || "[]");
+    const user = users.find(
+      (u: User) => u.username === username && u.password === password
+    );
 
     if (user) {
       set({ user });
-      alert('Login successful');
+      alert("Login successful");
     } else {
-      alert('Invalid username or password');
+      alert("Invalid username or password");
     }
   },
   signupUser: (username, password) => {
-    const users = JSON.parse(localStorage.getItem('users') || '[]');
+    const users = JSON.parse(localStorage.getItem("users") || "[]");
     users.push({ username, password });
-    localStorage.setItem('users', JSON.stringify(users));
-    alert('Signup successful');
+    localStorage.setItem("users", JSON.stringify(users));
+    alert("Signup successful");
   },
- 
 }));

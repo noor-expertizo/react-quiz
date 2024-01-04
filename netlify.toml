@@ -1,0 +1,9 @@
+[build]
+  command = "npm run build"
+  functions = "src/functions"
+
+[build.environment]
+  NODE_VERSION = "14"
+
+[dev]
+  command = "npm run dev"

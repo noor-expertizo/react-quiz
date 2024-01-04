@@ -1,6 +1,9 @@
 import React, { useState } from "react";
 import Button from "./Button";
-import { decodeURIComponentForStringOrArray } from "@/helpers/helpers";
+import {
+  decodeURIComponentForStringOrArray,
+  shuffleArray,
+} from "@/helpers/helpers";
 
 interface QuestionInterface {
   currentQuestionIndex: number;
@@ -18,9 +21,9 @@ const Question: React.FC<QuestionInterface> = ({
   questions,
 }: QuestionInterface) => {
   const [selectedOption, setSelectedOption] = useState<number | null>(null);
-  const [selectedOptionAnswer, setSelectedOptionAnswer] = useState<
-    string | null
-  >(null);
+  // const [selectedOptionAnswer, setSelectedOptionAnswer] = useState<
+  //   string | null
+  // >(null);
   const [isSelected, setIsSelected] = useState(0);
 
   const currentQuestion = questions[currentQuestionIndex];
@@ -37,21 +40,24 @@ const Question: React.FC<QuestionInterface> = ({
     updatedArr.length > 0 &&
     decodeURIComponentForStringOrArray(updatedArr);
 
+  const shuffledArray = shuffleArray([...updatedArr]);
+  console.log(shuffledArray, "suffle")
+
   let CorrectedAnswer: boolean = false;
 
   const handleAnswer = (selectedOptionIndex: number) => {
     setSelectedOption(selectedOptionIndex);
 
-    const options = updatedArr;
+    const options = shuffledArray;
     const selectedOption = options[selectedOptionIndex];
-    const decodedStr = decodeURIComponentForStringOrArray(currentQuestion?.correct_answer);
-    const isCorrect =
-      selectedOption ===
-      decodedStr
+    const decodedStr = decodeURIComponentForStringOrArray(
+      currentQuestion?.correct_answer
+    );
+    const isCorrect = selectedOption === decodedStr;
 
     setUserAnswers([...userAnswers, isCorrect ? 1 : 0]);
-    setIsSelected(isCorrect ? 1 : 0)
-
+    // setUserAnswers([...userAnswers, isCorrect && decodedStr]);
+    setIsSelected(isCorrect ? 1 : 0);
   };
 
   const handleNext = () => {
@@ -66,7 +72,6 @@ const Question: React.FC<QuestionInterface> = ({
   };
 
   const encodedString = currentQuestion?.question;
-
   let decodedCategoryString;
   if (encodedString) {
     decodedCategoryString = decodeURIComponent(
@@ -84,9 +89,9 @@ const Question: React.FC<QuestionInterface> = ({
             decodeURIComponentForStringOrArray(currentQuestion?.question)}
         </p>
         <div className="grid gap-8 grid-cols-1 sm:grid-cols-3">
-          {updatedArr &&
-            updatedArr.length > 0 &&
-            updatedArr?.map((option: any, index: number) => (
+          {shuffledArray &&
+            shuffledArray.length > 0 &&
+            shuffledArray?.map((option: any, index: number) => (
               <div
                 key={index}
                 className={
@@ -106,7 +111,7 @@ const Question: React.FC<QuestionInterface> = ({
                   disabled={selectedOption !== null}
                   onClick={() => {
                     handleAnswer(index);
-                    setSelectedOptionAnswer("");
+                    // setSelectedOptionAnswer("");
                   }}
                 >
                   {option}
@@ -118,16 +123,21 @@ const Question: React.FC<QuestionInterface> = ({
         <div className="flex flex-col justify-center items-center">
           <p className="text-black font-medium text-2xl leading-5 max-w-lg my-12">
             {selectedOption !== null
-              ? (isSelected === 1)
+              ? isSelected === 1
                 ? "Correct"
                 : "Sorry!"
               : null}
-              
           </p>
           <div>
-            <Button variant="success" onClick={() => handleNext()}>
-              Next Question
-            </Button>
+            {currentQuestionIndex === (questions.length -1) ? (
+              <Button variant="success" onClick={() => restartQuiz()}>
+                Restart
+              </Button>
+            ) : (
+              <Button variant="success" onClick={() => handleNext()}>
+                Next Question
+              </Button>
+            )}
           </div>
         </div>
       </div>
