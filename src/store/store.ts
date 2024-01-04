@@ -1,24 +1,3 @@
-// import create from 'zustand';
-
-// interface QuizState {
-//   currentQuestionIndex: number;
-//   userAnswers: number[];
-//   rating: number;
-//   setCurrentQuestionIndex: (index: number) => void;
-//   setUserAnswers: (answers: number[]) => void;
-//   setRating: (value: number) => void;
-// }
-
-// export const useQuizStore = create<QuizState>((set) => ({
-//   currentQuestionIndex: 0,
-//   userAnswers: [],
-//   rating: 0,
-//   setCurrentQuestionIndex: (index) => set({ currentQuestionIndex: index }),
-//   setUserAnswers: (answers) => set({ userAnswers: answers }),
-//   setRating: (value) => set({ rating: value }),
-// }));
-
-
 import create from 'zustand';
 
 interface QuestionItem {
@@ -49,3 +28,37 @@ export const useQuizStore = create<QuizStore>((set) => ({
   },
 }));
 
+
+
+interface User {
+  username: string;
+  password: string;
+}
+
+interface AuthStore {
+  user: User | null;
+  loginUser: (username: string, password: string) => void;
+  signupUser: (username: string, password: string) => void;
+}
+
+export const useAuthStore = create<AuthStore>((set) => ({
+  user: null,
+  loginUser: (username, password) => {
+    const users = JSON.parse(localStorage.getItem('users') || '[]');
+    const user = users.find((u: User) => u.username === username && u.password === password);
+
+    if (user) {
+      set({ user });
+      alert('Login successful');
+    } else {
+      alert('Invalid username or password');
+    }
+  },
+  signupUser: (username, password) => {
+    const users = JSON.parse(localStorage.getItem('users') || '[]');
+    users.push({ username, password });
+    localStorage.setItem('users', JSON.stringify(users));
+    alert('Signup successful');
+  },
+ 
+}));

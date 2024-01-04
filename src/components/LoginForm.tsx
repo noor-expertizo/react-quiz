@@ -3,6 +3,7 @@ import React from "react";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import { useRouter } from "next/navigation";
+import { useAuthStore } from "@/store/store";
 
 const LoginSchema = Yup.object().shape({
   username: Yup.string().required("Username is required"),
@@ -11,20 +12,26 @@ const LoginSchema = Yup.object().shape({
 
 const LoginForm: React.FC = () => {
   const router = useRouter();
+  const { loginUser } = useAuthStore();
+
 
   const handleLogin = (values: { username: string; password: string }) => {
-    const users = JSON.parse(localStorage.getItem("users") || "[]");
-    const user = users.find(
-      (u: { username: string; password: string }) =>
-        u.username === values.username
-    );
+    // const users = JSON.parse(localStorage.getItem("users") || "[]");
+    // const user = users.find(
+    //   (u: { username: string; password: string }) =>
+    //     u.username === values.username
+    // );
 
-    if (user && user.password === values.password) {
-      alert("Login successful");
-      router.push("/home");
-    } else {
-      alert("Invalid username or password");
-    }
+    // if (user && user.password === values.password) {
+    //   alert("Login successful");
+    //   router.push("/home");
+    // } else {
+    //   alert("Invalid username or password");
+    // }
+
+    loginUser(values.username, values.password);
+    router.push("/home");
+    
   };
 
   return (

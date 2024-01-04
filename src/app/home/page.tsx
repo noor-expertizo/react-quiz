@@ -95,7 +95,7 @@ export default function Home() {
             </div>
             <div className="mt-4">
               {/* <ProgressBar percent={correctPercent} maxPercent={75} /> */}
-              <ProgressBar totalScore={75} obtainedScore={correctPercent} minimumScore={30} />
+              <ProgressBar totalScore={75} obtainedScore={correctPercent} minimumScore={10} />
 
             </div>
           </div>

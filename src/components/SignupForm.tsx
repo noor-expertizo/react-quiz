@@ -86,6 +86,7 @@ import React from "react";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import { useRouter } from "next/navigation";
+import { useAuthStore } from "@/store/store";
 
 const SignupSchema = Yup.object().shape({
   username: Yup.string().required("Username is required"),
@@ -96,12 +97,14 @@ const SignupSchema = Yup.object().shape({
 
 const Signup: React.FC = () => {
   const router = useRouter();
+  const { signupUser } = useAuthStore();
 
   const handleSignup = (values: { username: string; password: string }) => {
-    const users = JSON.parse(localStorage.getItem("users") || "[]");
-    users.push({ username: values.username, password: values.password });
-    localStorage.setItem("users", JSON.stringify(users));
-    alert("Signup successful");
+    // const users = JSON.parse(localStorage.getItem("users") || "[]");
+    // users.push({ username: values.username, password: values.password });
+    // localStorage.setItem("users", JSON.stringify(users));
+    // alert("Signup successful");
+    signupUser(values.username, values.password);
     router.push("/login");
   };
 
