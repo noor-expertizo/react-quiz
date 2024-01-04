@@ -1,4 +1,4 @@
-"use client"; 
+"use client";
 
 import React from "react";
 import { Formik, Form, Field, ErrorMessage } from "formik";
@@ -15,8 +15,10 @@ const LoginForm: React.FC = () => {
   const router = useRouter();
   const { loginUser } = useAuthStore();
 
-
-  const handleLogin = async (values: { username: string; password: string }) => {
+  const handleLogin = async (values: {
+    username: string;
+    password: string;
+  }) => {
     // const users = JSON.parse(localStorage.getItem("users") || "[]");
     // const user = users.find(
     //   (u: { username: string; password: string }) =>
@@ -35,14 +37,14 @@ const LoginForm: React.FC = () => {
       const user = useAuthStore.getState().user;
 
       if (user) {
-        router.push('/');
+        router.push("/");
       } else {
         alert("Invalid username or password");
       }
     } catch (error) {
       console.error("Error during login:", error);
       alert("An error occurred during login");
-    } 
+    }
   };
 
   return (
@@ -99,16 +101,15 @@ const LoginForm: React.FC = () => {
             >
               Login
             </button>
-            <button
-              onClick={() => router.push("/signup")}
-              className=" text-black  py-2 px-4 rounded-md hover:underline text-xs"
-            >
-             Do not have an account? Register
-
-            </button>
           </div>
         </Form>
       </Formik>
+      <button
+        onClick={() => router.push("/signup")}
+        className=" text-black  py-2 rounded-md hover:underline text-xs"
+      >
+        Do not have an account? Register
+      </button>
     </div>
   );
 };

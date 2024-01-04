@@ -25,7 +25,7 @@ const Question: React.FC<QuestionInterface> = ({
   //   string | null
   // >(null);
   const [isSelected, setIsSelected] = useState(0);
-  const [isChecked, setIsChecked] = useState(false)
+  const [isChecked, setIsChecked] = useState(false);
 
   const currentQuestion = questions[currentQuestionIndex];
   let updatedArr: any = [];
@@ -40,7 +40,10 @@ const Question: React.FC<QuestionInterface> = ({
     updatedArr.length > 0 &&
     decodeURIComponentForStringOrArray(updatedArr);
 
-  const shuffledArray = useMemo(() => shuffleArray([...updatedArr]),[currentQuestionIndex]);
+  const shuffledArray = useMemo(
+    () => shuffleArray([...updatedArr]),
+    [currentQuestionIndex]
+  );
   console.log(shuffledArray, "suffle");
 
   let CorrectedAnswer: boolean = false;
@@ -84,61 +87,67 @@ const Question: React.FC<QuestionInterface> = ({
   return (
     <>
       <div className="flex flex-col items-center">
-        <p className="text-black font-medium text-lg leading-5 max-w-lg mb-10">
-          {currentQuestion?.question &&
-            decodeURIComponentForStringOrArray(currentQuestion?.question)}
-        </p>
-        <div className="grid gap-8 grid-cols-1 sm:grid-cols-3">
-          {shuffledArray &&
-            shuffledArray.length > 0 &&
-            shuffledArray?.map((option: any, index: number) => (
-              <div
-                key={index}
-                className={
-                  index === 0 || index === 2 ? "col-span-2" : "col-span-1"
-                }
-              >
-                <Button
-                  variant={
-                    selectedOption !== null
-                      ? index === currentQuestion.correct_answer
-                        ? "secondary"
-                        : index === selectedOption
-                        ? "secondary"
-                        : "primary"
-                      : "primary"
-                  }
-                  disabled={selectedOption !== null}
-                  onClick={() => {
-                    handleAnswer(index);
-                    // setSelectedOptionAnswer("");
-                    setIsChecked(true)
-                  }}
-                >
-                  {option}
-                </Button>
-              </div>
-            ))}
-        </div>
-
-        <div className="flex flex-col justify-center items-center">
-          <p className="text-black font-medium text-2xl leading-5 max-w-lg my-12">
-            {selectedOption !== null
-              ? isSelected === 1
-                ? "Correct"
-                : "Sorry!"
-              : null}
-          </p>
+        <div>
           <div>
+            <p className="text-black font-medium text-lg leading-5 max-w-lg mb-10">
+              {currentQuestion?.question &&
+                decodeURIComponentForStringOrArray(currentQuestion?.question)}
+            </p>
+            <div className="grid gap-8 grid-cols-1 sm:grid-cols-3">
+              {shuffledArray &&
+                shuffledArray.length > 0 &&
+                shuffledArray?.map((option: any, index: number) => (
+                  <div
+                    key={index}
+                    className={
+                      index === 0 || index === 2 ? "col-span-2" : "col-span-1"
+                    }
+                  >
+                    <Button
+                      variant={
+                        selectedOption !== null
+                          ? index === currentQuestion.correct_answer
+                            ? "secondary"
+                            : index === selectedOption
+                            ? "secondary"
+                            : "primary"
+                          : "primary"
+                      }
+                      disabled={selectedOption !== null}
+                      onClick={() => {
+                        handleAnswer(index);
+                        // setSelectedOptionAnswer("");
+                        setIsChecked(true);
+                      }}
+                    >
+                      {option}
+                    </Button>
+                  </div>
+                ))}
+            </div>
+
+            <div className="flex flex-col justify-center items-center">
+              <p className="text-black font-medium text-2xl leading-5 max-w-lg my-12">
+                {selectedOption !== null
+                  ? isSelected === 1
+                    ? "Correct"
+                    : "Sorry!"
+                  : null}
+              </p>
+            </div>
+          </div>
+          <div className="flex items-center justify-center">
             {currentQuestionIndex === questions.length - 1 ? (
               <Button variant="success" onClick={() => restartQuiz()}>
                 Restart
               </Button>
             ) : (
               <>
-              {selectedOption !== null  ? <Button variant="success" onClick={() => handleNext()}>
-                Next Question
-              </Button> : (null)}
+                {selectedOption !== null ? (
+                  <Button variant="success" onClick={() => handleNext()}>
+                    Next Question
+                  </Button>
+                ) : null}
               </>
             )}
           </div>

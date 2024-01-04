@@ -99,10 +99,6 @@ const Signup: React.FC = () => {
   const { signupUser } = useAuthStore();
 
   const handleSignup = (values: { username: string; password: string }) => {
-    // const users = JSON.parse(localStorage.getItem("users") || "[]");
-    // users.push({ username: values.username, password: values.password });
-    // localStorage.setItem("users", JSON.stringify(users));
-    // alert("Signup successful");
     signupUser(values.username, values.password);
     router.push("/login");
   };
@@ -161,15 +157,15 @@ const Signup: React.FC = () => {
             >
               Signup
             </button>
-            <button
-              onClick={() => router.push("/login")}
-              className=" text-black  py-2 px-4 rounded-md hover:underline text-xs"
-            >
-              Already have an account?
-            </button>
           </div>
         </Form>
       </Formik>
+      <button
+        onClick={() => router.push("/login")}
+        className=" text-black  py-2 rounded-md hover:underline text-xs"
+      >
+        Already have an account?
+      </button>
     </div>
   );
 };
