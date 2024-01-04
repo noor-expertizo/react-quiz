@@ -20,7 +20,7 @@ export const useQuizStore = create<QuizStore>((set) => ({
       // const response = await fetch("http://localhost:3004/data");
       const response = await fetch("/.netlify/functions/questions");
       const data = await response.json();
-      set({ questions: data });
+      set({ questions: data.data });
       return data; // Return the fetched data
     } catch (error) {
       console.error("Error fetching questions:", error);

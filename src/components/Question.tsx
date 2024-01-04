@@ -27,7 +27,7 @@ const Question: React.FC<QuestionInterface> = ({
   // >(null);
   const [isSelected, setIsSelected] = useState(0);
 
-  const currentQuestion = questions.data[currentQuestionIndex];
+  const currentQuestion = questions[currentQuestionIndex];
   let updatedArr: any = [];
   updatedArr.push(
     currentQuestion?.correct_answer,
