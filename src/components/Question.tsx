@@ -10,7 +10,7 @@ interface QuestionInterface {
   setCurrentQuestionIndex: (value: number) => void;
   userAnswers: number[];
   setUserAnswers: (values: number[]) => void;
-  questions: any[];
+  questions: any;
 }
 
 const Question: React.FC<QuestionInterface> = ({
@@ -27,7 +27,7 @@ const Question: React.FC<QuestionInterface> = ({
   // >(null);
   const [isSelected, setIsSelected] = useState(0);
 
-  const currentQuestion = questions[currentQuestionIndex];
+  const currentQuestion = questions.data[currentQuestionIndex];
   let updatedArr: any = [];
   updatedArr.push(
     currentQuestion?.correct_answer,
