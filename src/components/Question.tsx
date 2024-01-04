@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useMemo, useState } from "react";
 import Button from "./Button";
 import {
   decodeURIComponentForStringOrArray,
@@ -20,12 +20,12 @@ const Question: React.FC<QuestionInterface> = ({
   setUserAnswers,
   questions,
 }: QuestionInterface) => {
-  debugger
   const [selectedOption, setSelectedOption] = useState<number | null>(null);
   // const [selectedOptionAnswer, setSelectedOptionAnswer] = useState<
   //   string | null
   // >(null);
   const [isSelected, setIsSelected] = useState(0);
+  const [isChecked, setIsChecked] = useState(false)
 
   const currentQuestion = questions[currentQuestionIndex];
   let updatedArr: any = [];
@@ -40,7 +40,7 @@ const Question: React.FC<QuestionInterface> = ({
     updatedArr.length > 0 &&
     decodeURIComponentForStringOrArray(updatedArr);
 
-  const shuffledArray = shuffleArray([...updatedArr]);
+  const shuffledArray = useMemo(() => shuffleArray([...updatedArr]),[currentQuestionIndex]);
   console.log(shuffledArray, "suffle");
 
   let CorrectedAnswer: boolean = false;
@@ -52,9 +52,7 @@ const Question: React.FC<QuestionInterface> = ({
     const decodedStr = decodeURIComponentForStringOrArray(
       currentQuestion?.correct_answer
     );
-
     const isCorrect = selectedOption === decodedStr;
-
     setUserAnswers([...userAnswers, isCorrect ? 1 : 0]);
     // setUserAnswers([...userAnswers, isCorrect && decodedStr]);
     setIsSelected(isCorrect ? 1 : 0);
@@ -81,8 +79,7 @@ const Question: React.FC<QuestionInterface> = ({
     decodedCategoryString = "";
   }
 
-  console.log(questions)
-  
+  console.log(questions);
 
   return (
     <>
@@ -115,6 +112,7 @@ const Question: React.FC<QuestionInterface> = ({
                   onClick={() => {
                     handleAnswer(index);
                     // setSelectedOptionAnswer("");
+                    setIsChecked(true)
                   }}
                 >
                   {option}
@@ -137,9 +135,11 @@ const Question: React.FC<QuestionInterface> = ({
                 Restart
               </Button>
             ) : (
-              <Button variant="success" onClick={() => handleNext()}>
+              <>
+              {selectedOption !== null  ? <Button variant="success" onClick={() => handleNext()}>
                 Next Question
-              </Button>
+              </Button> : (null)}
+              </>
             )}
           </div>
         </div>

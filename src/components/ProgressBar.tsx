@@ -33,15 +33,15 @@ const ProgressBar: React.FC<ProgressBarProps> = ({
       {/* Progress Bar */}
       <div className="flex w-full mb-2 border-2 border-slate-500 rounded-md">
         <div
-          style={{ width: `${minimumWidth}%` }}
+          style={{ width: `${minimumWidth}%`, transition: "ease-in-out", transitionDuration: "0.3s" }}
           className="rounded-l bg-black h-6"
         ></div>
         <div
-          style={{ width: `${obtainedWidth - minimumWidth}%` }}
+          style={{ width: `${obtainedWidth - minimumWidth}%`, transition: "ease-in-out", transitionDuration: "0.3s" }}
           className="bg-gray-600 h-6"
         ></div>
         <div
-          style={{ width: `${totalWidth - obtainedWidth}%` }}
+          style={{ width: `${totalWidth - obtainedWidth}%`, transition: "ease-in-out", transitionDuration: "0.3s" }}
           className="rounded-r bg-slate-300 h-6"
         ></div>
       </div>

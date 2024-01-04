@@ -109,10 +109,15 @@ const Home = () => {
               <div className="mt-4">
                 {/* <ProgressBar percent={correctPercent} maxPercent={75} /> */}
                 <ProgressBar
-                  totalScore={75}
+                  totalScore={100}
                   obtainedScore={correctPercent}
                   minimumScore={10}
                 />
+                {/* <ProgressBar
+                  totalQuestions={100}
+                  currentQuestions={65}
+                  correctAnswers={correctPercent}
+                /> */}
               </div>
             </div>
           )}
@@ -120,6 +125,6 @@ const Home = () => {
       </div>
     </>
   );
-}
+};
 
-export default Home
+export default Home;
