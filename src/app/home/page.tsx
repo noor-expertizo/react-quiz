@@ -30,7 +30,6 @@ export default function Home() {
   );
 
   
-
   const maxScorePercent = 75;
   const correctPercent = Math.min(
     parseFloat(((correctAnswers / questions.length) * 100).toFixed(2)),
@@ -63,11 +62,13 @@ export default function Home() {
 
   return (
     <>
-      <div className="mb-8">
+      <div className="max-w-3xl mx-auto mt-4 pb-6 border-2 border-gray-400 rounded shadow-lg">
         <div className="mb-8">
-          <StepperProgressBar percent={currentQuestionIndex} />
+          {/* <StepperProgressBar percent={currentQuestionIndex} /> */}
+          <StepperProgressBar currentQuestionIndex={currentQuestionIndex} totalQuestions={questions.length} />
+
         </div>
-        <div className="flex flex-col justify-center items-center">
+        <div className="flex flex-col justify-center items-center px-4 sm:px-0">
           <div>
             <div className="mb-8">
               <QuestionHeading
@@ -93,7 +94,9 @@ export default function Home() {
               />
             </div>
             <div className="mt-4">
-              <ProgressBar percent={correctPercent} maxPercent={75} />
+              {/* <ProgressBar percent={correctPercent} maxPercent={75} /> */}
+              <ProgressBar totalScore={75} obtainedScore={correctPercent} minimumScore={30} />
+
             </div>
           </div>
         </div>

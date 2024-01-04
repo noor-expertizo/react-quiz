@@ -83,7 +83,7 @@ const Question: React.FC<QuestionInterface> = ({
           {currentQuestion?.question &&
             decodeURIComponentForStringOrArray(currentQuestion?.question)}
         </p>
-        <div className="grid gap-8 grid-cols-3">
+        <div className="grid gap-8 grid-cols-1 sm:grid-cols-3">
           {updatedArr &&
             updatedArr.length > 0 &&
             updatedArr?.map((option: any, index: number) => (
@@ -97,7 +97,7 @@ const Question: React.FC<QuestionInterface> = ({
                   variant={
                     selectedOption !== null
                       ? index === currentQuestion.correct_answer
-                        ? "primary"
+                        ? "secondary"
                         : index === selectedOption
                         ? "secondary"
                         : "primary"

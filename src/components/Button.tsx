@@ -11,10 +11,10 @@ const Button: React.FC<ButtonProps> = ({ variant = 'primary', disabled = false, 
 
   switch (variant) {
     case 'primary':
-      colorStyles = 'bg-black text-white hover:bg-gray-700 px-4 py-1 w-28';
+      colorStyles = 'bg-black text-white hover:bg-gray-700 px-4 py-1 w-48';
       break;
     case 'secondary':
-      colorStyles = 'bg-white border-2 border-black text-black hover:bg-slate-100 px-6 py-1 w-32';
+      colorStyles = 'bg-white border-2 border-black text-black hover:bg-slate-100 px-6 py-1 w-48';
       break;
     case 'success':
       colorStyles = 'bg-slate-200 border-2 border-black text-black hover:bg-slate-100 px-9 py-2';

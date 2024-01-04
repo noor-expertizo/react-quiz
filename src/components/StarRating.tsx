@@ -26,7 +26,7 @@ const StarRating: React.FC<StarRatingProps> = ({ totalStars, onChange, rating })
           key={index}
           // onClick={() => handleStarClick(index)}
           className={`text-2xl focus:outline-none ${
-            index < rating ? 'text-yellow-500' : 'text-gray-300'
+            index < rating ? 'text-black' : 'text-gray-300'
           }`}
         >
           &#9733;
