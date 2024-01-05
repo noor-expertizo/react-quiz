@@ -19,19 +19,6 @@ const LoginForm: React.FC = () => {
     username: string;
     password: string;
   }) => {
-    // const users = JSON.parse(localStorage.getItem("users") || "[]");
-    // const user = users.find(
-    //   (u: { username: string; password: string }) =>
-    //     u.username === values.username
-    // );
-
-    // if (user && user.password === values.password) {
-    //   alert("Login successful");
-    //   router.push("/home");
-    // } else {
-    //   alert("Invalid username or password");
-    // }
-
     try {
       await loginUser(values.username, values.password);
       const user = useAuthStore.getState().user;

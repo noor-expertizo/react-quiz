@@ -14,14 +14,15 @@ import Button from "@/components/Button";
 import withAuth from "@/helpers/withAuth";
 
 const Home = () => {
-  const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
-  const [loading, setLoading] = useState(true);
-  const [countCorrectAnswers, setCountCorrectAnswers] = useState(0);
-  const [countAttempetedAnswers, setCountAttemptedAnswers] = useState(0);
+  const [currentQuestionIndex, setCurrentQuestionIndex] = useState<number>(0);
+  const [loading, setLoading] = useState<boolean>(true);
+  const [countCorrectAnswers, setCountCorrectAnswers] = useState<number>(0);
+  const [countAttempetedAnswers, setCountAttemptedAnswers] =
+    useState<number>(0);
   const [selectedOption, setSelectedOption] = useState<number | null>(null);
   const { questions, fetchQuestions } = useQuizStore();
   const [progressBars, setProgressBar] =
-    useState<{ value: any; color: string }[]>();
+    useState<{ value: number ; color: string }[]>();
 
   useEffect(() => {
     const fetchData = async () => {
@@ -50,7 +51,7 @@ const Home = () => {
 
   const currentQuestion = questions[currentQuestionIndex];
 
-  const difficultyStars: any = {
+  const difficultyStars: { [key: string]: number } = {
     easy: 1,
     medium: 2,
     hard: 3,
@@ -81,7 +82,7 @@ const Home = () => {
             <div>
               {currentQuestionIndex !== questions.length - 1 ? (
                 <>
-                  <div>
+                  <div className="px-8">
                     <div className="mb-8">
                       <QuestionHeading
                         count={currentQuestionIndex + 1}
@@ -90,7 +91,7 @@ const Home = () => {
                           currentQuestion?.category &&
                           decodeURIComponentForStringOrArray(
                             currentQuestion?.category
-                          )
+                          ) as string
                         }
                       />
                       <StarRating totalStars={3} rating={newRating} />
@@ -122,11 +123,9 @@ const Home = () => {
                         : "Fail"}
                     </p>
 
-                    <>
-                      <Button variant="success" onClick={() => restartQuiz()}>
-                        Restart
-                      </Button>
-                    </>
+                    <Button variant="success" onClick={() => restartQuiz()}>
+                      Restart
+                    </Button>
                   </div>
                 </>
               )}
@@ -134,7 +133,7 @@ const Home = () => {
                 <MultiProgressBar
                   bars={progressBars!!}
                   obtainedScore={countCorrectAnswers}
-                  totalScore={questions.length}
+                  totalScore={  100 - countAttempetedAnswers}
                 />
               </div>
             </div>
@@ -145,28 +144,4 @@ const Home = () => {
   );
 };
 
-// export default withAuth(Home);
 export default Home;
-
-// const encodedCategoryString = currentQuestion?.category;
-
-// let decodedCategoryString;
-// if (encodedCategoryString) {
-//   decodedCategoryString = decodeURIComponent(
-//     encodedCategoryString?.replace(/%\d+/g, " ")
-//   );
-// } else {
-//   decodedCategoryString = "";
-// }
-
-// let progressBars = [
-//   { value: countCorrectAnswers, color: "black" },
-//   { value: countAttempetedAnswers, color: "gray" },
-//   { value: questions.length, color: "lightgray" },
-// ];
-
-// setProgressBar( [
-//   { value: 0, color: "black" },
-//   { value: 0, color: "gray" },
-//   { value: questions.length, color: "lightgray" },
-// ]);

@@ -1,9 +1,6 @@
 import React from "react";
+import { StepperProgressBarProps } from "./types";
 
-interface StepperProgressBarProps {
-  currentQuestionIndex: number;
-  totalQuestions: number;
-}
 
 const StepperProgressBar: React.FC<StepperProgressBarProps> = ({ currentQuestionIndex, totalQuestions }) => {
   const percent = (currentQuestionIndex / totalQuestions) * 100;

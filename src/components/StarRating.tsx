@@ -1,10 +1,6 @@
 import React, { useState } from "react";
+import { StarRatingProps } from "./types";
 
-interface StarRatingProps {
-  totalStars: number;
-  onChange?: (rating: number) => void;
-  rating: number;
-}
 
 const StarRating: React.FC<StarRatingProps> = ({
   totalStars,

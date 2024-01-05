@@ -2,9 +2,15 @@ import React, { useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { useAuthStore } from "@/store/store";
 
-const withAuth = (Component: React.ComponentType<any>) => {
-  return function WithAuth(props: any) {
-    const isAuthenticated = useAuthStore((state: any) => state.isAuthenticated);
+interface WithAuthProps {}
+
+const withAuth = <T extends WithAuthProps>(
+  Component: React.ComponentType<T>
+) => {
+  return function WithAuth(props: T) {
+    const isAuthenticated = useAuthStore(
+      (state: { isAuthenticated: boolean }) => state.isAuthenticated
+    );
     const router = useRouter();
 
     useEffect(() => {
@@ -14,10 +20,6 @@ const withAuth = (Component: React.ComponentType<any>) => {
       }
       console.error("After redirection");
     }, [isAuthenticated]);
-
-    // if (!isAuthenticated) {
-    //   return null;
-    // }
 
     return <Component {...props} />;
   };

@@ -17,11 +17,11 @@ export const useQuizStore = create<QuizStore>((set) => ({
   questions: [],
   fetchQuestions: async () => {
     try {
-      const response = await fetch("http://localhost:3004/data");
-      // const response = await fetch("/.netlify/functions/questions");
+      // const response = await fetch("http://localhost:3004/data");
+      const response = await fetch("/.netlify/functions/questions");
       const data = await response.json();
-      // set({ questions: data.data });
-      set({ questions: data });
+      set({ questions: data.data });
+      // set({ questions: data });
       return data;
     } catch (error) {
       console.error("Error fetching questions:", error);
@@ -54,10 +54,8 @@ export const useAuthStore = create<AuthStore>((set) => ({
 
     if (user) {
       set({ isAuthenticated: true, user });
-      alert("Login successful");
-    } else {
-      alert("Invalid username or password");
-    }
+      // alert("Login successful");
+    } 
   },
   signupUser: (fullname, username, password) => {
     const users = JSON.parse(localStorage.getItem("users") || "[]");
