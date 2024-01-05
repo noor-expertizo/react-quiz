@@ -19,6 +19,8 @@ const Home = () => {
   const [countAttempetedAnswers, setCountAttemptedAnswers] = useState(0);
   const [selectedOption, setSelectedOption] = useState<number | null>(null);
   const { questions, fetchQuestions } = useQuizStore();
+  const [progressBars, setProgressBar] =
+    useState<{ value: any; color: string }[]>();
 
   useEffect(() => {
     const fetchData = async () => {
@@ -37,6 +39,14 @@ const Home = () => {
     return () => clearTimeout(timeout);
   }, []);
 
+  useEffect(() => {
+    setProgressBar([
+      { value: countCorrectAnswers, color: "black" },
+      { value: countAttempetedAnswers, color: "gray" },
+      { value: questions.length, color: "lightgray" },
+    ]);
+  }, [countCorrectAnswers, countAttempetedAnswers, selectedOption]);
+
   const currentQuestion = questions[currentQuestionIndex];
 
   const difficultyStars: any = {
@@ -47,18 +57,8 @@ const Home = () => {
 
   const newRating = difficultyStars[currentQuestion?.difficulty] || 0;
 
-  let progressBars = [
-    { value: countCorrectAnswers, color: "black" },
-    { value: countAttempetedAnswers, color: "gray" },
-    { value: questions.length, color: "lightgray" },
-  ];
-
   const restartQuiz = () => {
-    progressBars = [
-      { value: 0, color: "black" },
-      { value: 0, color: "gray" },
-      { value: questions.length, color: "lightgray" },
-    ];
+ 
     setCurrentQuestionIndex(0);
     setSelectedOption(null);
     setCountCorrectAnswers(0);
@@ -132,7 +132,7 @@ const Home = () => {
               )}
               <div className="mt-4">
                 <MultiProgressBar
-                  bars={progressBars}
+                  bars={progressBars!!}
                   obtainedScore={countCorrectAnswers}
                   totalScore={questions.length}
                 />
@@ -147,8 +147,6 @@ const Home = () => {
 
 export default Home;
 
-
-
 // const encodedCategoryString = currentQuestion?.category;
 
 // let decodedCategoryString;
@@ -159,3 +157,18 @@ export default Home;
 // } else {
 //   decodedCategoryString = "";
 // }
+
+
+
+  // let progressBars = [
+  //   { value: countCorrectAnswers, color: "black" },
+  //   { value: countAttempetedAnswers, color: "gray" },
+  //   { value: questions.length, color: "lightgray" },
+  // ];
+
+
+   // setProgressBar( [
+    //   { value: 0, color: "black" },
+    //   { value: 0, color: "gray" },
+    //   { value: questions.length, color: "lightgray" },
+    // ]);
