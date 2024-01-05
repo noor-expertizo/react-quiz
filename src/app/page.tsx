@@ -11,6 +11,7 @@ import { useQuizStore } from "@/store/store";
 import { useEffect, useState } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import Button from "@/components/Button";
+import withAuth from "@/helpers/withAuth";
 
 const Home = () => {
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
@@ -58,7 +59,6 @@ const Home = () => {
   const newRating = difficultyStars[currentQuestion?.difficulty] || 0;
 
   const restartQuiz = () => {
- 
     setCurrentQuestionIndex(0);
     setSelectedOption(null);
     setCountCorrectAnswers(0);
@@ -145,7 +145,7 @@ const Home = () => {
   );
 };
 
-export default Home;
+export default withAuth(Home);
 
 // const encodedCategoryString = currentQuestion?.category;
 
@@ -158,17 +158,14 @@ export default Home;
 //   decodedCategoryString = "";
 // }
 
+// let progressBars = [
+//   { value: countCorrectAnswers, color: "black" },
+//   { value: countAttempetedAnswers, color: "gray" },
+//   { value: questions.length, color: "lightgray" },
+// ];
 
-
-  // let progressBars = [
-  //   { value: countCorrectAnswers, color: "black" },
-  //   { value: countAttempetedAnswers, color: "gray" },
-  //   { value: questions.length, color: "lightgray" },
-  // ];
-
-
-   // setProgressBar( [
-    //   { value: 0, color: "black" },
-    //   { value: 0, color: "gray" },
-    //   { value: questions.length, color: "lightgray" },
-    // ]);
+// setProgressBar( [
+//   { value: 0, color: "black" },
+//   { value: 0, color: "gray" },
+//   { value: questions.length, color: "lightgray" },
+// ]);

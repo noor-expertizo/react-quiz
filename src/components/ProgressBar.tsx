@@ -69,7 +69,6 @@ const MultiProgressBar: React.FC<MultiProgressBarProps> = ({
   totalScore,
   obtainedScore,
 }) => {
-  console.log("bars", bars)
   return (
     <div>
       <div className="flex mb-2 items-center justify-between">

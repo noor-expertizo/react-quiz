@@ -17,11 +17,11 @@ export const useQuizStore = create<QuizStore>((set) => ({
   questions: [],
   fetchQuestions: async () => {
     try {
-      // const response = await fetch("http://localhost:3004/data");
-      const response = await fetch("/.netlify/functions/questions");
+      const response = await fetch("http://localhost:3004/data");
+      // const response = await fetch("/.netlify/functions/questions");
       const data = await response.json();
-      set({ questions: data.data });
-      // set({ questions: data });
+      // set({ questions: data.data });
+      set({ questions: data });
       return data;
     } catch (error) {
       console.error("Error fetching questions:", error);
@@ -36,12 +36,15 @@ interface User {
 }
 
 interface AuthStore {
+  isAuthenticated: boolean;
   user: User | null;
   loginUser: (username: string, password: string) => void;
   signupUser: (username: string, password: string) => void;
+  logoutUser: () => void;
 }
 
 export const useAuthStore = create<AuthStore>((set) => ({
+  isAuthenticated: false,
   user: null,
   loginUser: (username, password) => {
     const users = JSON.parse(localStorage.getItem("users") || "[]");
@@ -50,7 +53,7 @@ export const useAuthStore = create<AuthStore>((set) => ({
     );
 
     if (user) {
-      set({ user });
+      set({ isAuthenticated: true, user });
       alert("Login successful");
     } else {
       alert("Invalid username or password");
@@ -61,5 +64,9 @@ export const useAuthStore = create<AuthStore>((set) => ({
     users.push({ username, password });
     localStorage.setItem("users", JSON.stringify(users));
     alert("Signup successful");
+  },
+  logoutUser: () => {
+    set({ isAuthenticated: false, user: null });
+    alert("Logout successful");
   },
 }));
