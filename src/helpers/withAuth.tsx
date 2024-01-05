@@ -15,9 +15,9 @@ const withAuth = (Component: React.ComponentType<any>) => {
       console.error("After redirection");
     }, [isAuthenticated]);
 
-    if (!isAuthenticated) {
-      return null;
-    }
+    // if (!isAuthenticated) {
+    //   return null;
+    // }
 
     return <Component {...props} />;
   };

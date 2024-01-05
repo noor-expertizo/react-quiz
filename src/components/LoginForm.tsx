@@ -38,7 +38,6 @@ const LoginForm: React.FC = () => {
 
       if (user) {
         router.push("/");
-
       } else {
         alert("Invalid username or password");
       }
