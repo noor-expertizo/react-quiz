@@ -1,6 +1,7 @@
-"use client"; // This is a client component
+"use client";
 
 import Loader from "@/components/Loader";
+import MultiProgressBar from "@/components/ProgressBar";
 import ProgressBar from "@/components/ProgressBar";
 import Question from "@/components/Question";
 import QuestionHeading from "@/components/QuestionHeading";
@@ -9,12 +10,15 @@ import StepperProgressBar from "@/components/StepperProgressBar";
 import { decodeURIComponentForStringOrArray } from "@/helpers/helpers";
 import { useQuizStore } from "@/store/store";
 import { useEffect, useState } from "react";
+import "bootstrap/dist/css/bootstrap.min.css";
+import Button from "@/components/Button";
 
 const Home = () => {
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
-  const [userAnswers, setUserAnswers] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
-
+  const [countCorrectAnswers, setCountCorrectAnswers] = useState(0);
+  const [countAttempetedAnswers, setCountAttemptedAnswers] = useState(0);
+  const [selectedOption, setSelectedOption] = useState<number | null>(null);
   const { questions, fetchQuestions } = useQuizStore();
 
   useEffect(() => {
@@ -34,16 +38,6 @@ const Home = () => {
     return () => clearTimeout(timeout);
   }, []);
 
-  const correctAnswers =
-    userAnswers &&
-    userAnswers.length > 0 &&
-    userAnswers.reduce((acc, next) => acc + next);
-
-  const maxScorePercent = 75;
-  const correctPercent = Math.min(
-    parseFloat(((correctAnswers / questions.length) * 100).toFixed(2)),
-    maxScorePercent
-  );
   const currentQuestion = questions[currentQuestionIndex];
 
   let newRating = 0;
@@ -69,11 +63,28 @@ const Home = () => {
     decodedCategoryString = "";
   }
 
+  let progressBars = [
+    { value: countCorrectAnswers, color: "black" },
+    { value: countAttempetedAnswers, color: "gray" },
+    { value: questions.length, color: "lightgray" },
+  ];
+
+  const restartQuiz = () => {
+    progressBars = [
+      { value: 0, color: "black" },
+      { value: 0, color: "gray" },
+      { value: questions.length, color: "lightgray" },
+    ];
+    setCurrentQuestionIndex(0);
+    setSelectedOption(null);
+    setCountCorrectAnswers(0);
+    setCountAttemptedAnswers(0);
+  };
+
   return (
     <>
       <div className="max-w-3xl mx-auto mt-4 pb-6 border-2 border-gray-400 rounded shadow-lg">
         <div className="mb-8">
-          {/* <StepperProgressBar percent={currentQuestionIndex} /> */}
           <StepperProgressBar
             currentQuestionIndex={currentQuestionIndex}
             totalQuestions={questions.length}
@@ -84,40 +95,63 @@ const Home = () => {
             <Loader />
           ) : (
             <div>
-              <div className="mb-8">
-                <QuestionHeading
-                  count={currentQuestionIndex + 1}
-                  total={questions.length}
-                  title={
-                    currentQuestion?.category &&
-                    decodeURIComponentForStringOrArray(
-                      currentQuestion?.category
-                    )
-                  }
-                />
-                <StarRating totalStars={5} rating={newRating} />
-              </div>
-              <div>
-                <Question
-                  currentQuestionIndex={currentQuestionIndex}
-                  setCurrentQuestionIndex={setCurrentQuestionIndex}
-                  setUserAnswers={setUserAnswers}
-                  userAnswers={userAnswers}
-                  questions={questions}
-                />
-              </div>
+              {currentQuestionIndex !== questions.length - 1 ? (
+                <>
+                  <div>
+                    <div className="mb-8">
+                      <QuestionHeading
+                        count={currentQuestionIndex + 1}
+                        total={questions.length}
+                        title={
+                          currentQuestion?.category &&
+                          decodeURIComponentForStringOrArray(
+                            currentQuestion?.category
+                          )
+                        }
+                      />
+                      <StarRating totalStars={5} rating={newRating} />
+                    </div>
+                    <div>
+                      <Question
+                        currentQuestionIndex={currentQuestionIndex}
+                        setCurrentQuestionIndex={setCurrentQuestionIndex}
+                        questions={questions}
+                        countAttempetedAnswers={countAttempetedAnswers}
+                        countCorrectAnswers={countCorrectAnswers}
+                        setCountAttemptedAnswers={setCountAttemptedAnswers}
+                        setCountCorrectAnswers={setCountCorrectAnswers}
+                        selectedOption={selectedOption}
+                        setSelectedOption={setSelectedOption}
+                      />
+                    </div>
+                  </div>
+                </>
+              ) : (
+                <>
+                  <div className="text-center mb-10">
+                    <p className="text-2xl font-medium">
+                      {countCorrectAnswers} %
+                    </p>
+                    <p className="text-4xl font-medium mb-12">
+                      {countCorrectAnswers >= (questions.length / 2)
+                        ? "Success"
+                        : "Fail"}
+                    </p>
+
+                    <>
+                      <Button variant="success" onClick={() => restartQuiz()}>
+                        Restart
+                      </Button>
+                    </>
+                  </div>
+                </>
+              )}
               <div className="mt-4">
-                {/* <ProgressBar percent={correctPercent} maxPercent={75} /> */}
-                <ProgressBar
-                  totalScore={100}
-                  obtainedScore={correctPercent}
-                  minimumScore={10}
+                <MultiProgressBar
+                  bars={progressBars}
+                  obtainedScore={countCorrectAnswers}
+                  totalScore={questions.length}
                 />
-                {/* <ProgressBar
-                  totalQuestions={100}
-                  currentQuestions={65}
-                  correctAnswers={correctPercent}
-                /> */}
               </div>
             </div>
           )}

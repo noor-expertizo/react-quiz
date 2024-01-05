@@ -8,33 +8,37 @@ import {
 interface QuestionInterface {
   currentQuestionIndex: number;
   setCurrentQuestionIndex: (value: number) => void;
-  userAnswers: number[];
-  setUserAnswers: (values: number[]) => void;
   questions: any;
+  countCorrectAnswers: number;
+  countAttempetedAnswers: number;
+  setCountCorrectAnswers: (value: any) => void;
+  setCountAttemptedAnswers: (value: any) => void;
+  selectedOption: number | null;
+  setSelectedOption: (value:any) => void;
 }
 
 const Question: React.FC<QuestionInterface> = ({
   currentQuestionIndex,
   setCurrentQuestionIndex,
-  userAnswers,
-  setUserAnswers,
   questions,
+  countAttempetedAnswers,
+  countCorrectAnswers,
+  setCountAttemptedAnswers,
+  setCountCorrectAnswers,
+  selectedOption,
+  setSelectedOption,
 }: QuestionInterface) => {
-  const [selectedOption, setSelectedOption] = useState<number | null>(null);
-  // const [selectedOptionAnswer, setSelectedOptionAnswer] = useState<
-  //   string | null
-  // >(null);
   const [isSelected, setIsSelected] = useState(0);
-  const [isChecked, setIsChecked] = useState(false);
 
   const currentQuestion = questions[currentQuestionIndex];
   let updatedArr: any = [];
-  updatedArr.push(
-    currentQuestion?.correct_answer,
-    currentQuestion?.incorrect_answers
-  );
-  updatedArr = updatedArr.flatMap((x: any) => x);
-
+  // updatedArr.push(
+  //   currentQuestion?.correct_answer,
+  //   currentQuestion?.incorrect_answers
+  // );
+  // updatedArr = updatedArr.flatMap((x: any) => x);
+  updatedArr = [currentQuestion?.correct_answer, ...currentQuestion?.incorrect_answers]
+  console.log("upda", updatedArr);
   updatedArr =
     updatedArr &&
     updatedArr.length > 0 &&
@@ -56,7 +60,11 @@ const Question: React.FC<QuestionInterface> = ({
       currentQuestion?.correct_answer
     );
     const isCorrect = selectedOption === decodedStr;
-    setUserAnswers([...userAnswers, isCorrect ? 1 : 0]);
+    if (isCorrect) {
+      setCountCorrectAnswers(countCorrectAnswers + 1);
+    }
+    setCountAttemptedAnswers(countAttempetedAnswers + 1);
+    // setUserAnswers([...userAnswers, isCorrect ? 1 : 0]);
     // setUserAnswers([...userAnswers, isCorrect && decodedStr]);
     setIsSelected(isCorrect ? 1 : 0);
   };
@@ -64,12 +72,6 @@ const Question: React.FC<QuestionInterface> = ({
   const handleNext = () => {
     setSelectedOption(null);
     setCurrentQuestionIndex(currentQuestionIndex + 1);
-  };
-
-  const restartQuiz = () => {
-    setCurrentQuestionIndex(0);
-    setUserAnswers([]);
-    setSelectedOption(null);
   };
 
   const encodedString = currentQuestion?.question;
@@ -116,8 +118,6 @@ const Question: React.FC<QuestionInterface> = ({
                       disabled={selectedOption !== null}
                       onClick={() => {
                         handleAnswer(index);
-                        // setSelectedOptionAnswer("");
-                        setIsChecked(true);
                       }}
                     >
                       {option}
@@ -138,9 +138,10 @@ const Question: React.FC<QuestionInterface> = ({
           </div>
           <div className="flex items-center justify-center">
             {currentQuestionIndex === questions.length - 1 ? (
-              <Button variant="success" onClick={() => restartQuiz()}>
-                Restart
-              </Button>
+              // <Button variant="success" onClick={() => restartQuiz()}>
+              //   Restart
+              // </Button>
+              <></>
             ) : (
               <>
                 {selectedOption !== null ? (
