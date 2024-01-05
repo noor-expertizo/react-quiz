@@ -2,3 +2,9 @@
   command = "npm run build"
   functions = "src/functions"
   environment = { NODE_VERSION = "18.17.0" }
+
+[[redirects]]
+  from = "/login"
+  to = "/"
+  status = 200
+  force = true
