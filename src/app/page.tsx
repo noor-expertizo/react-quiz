@@ -145,7 +145,8 @@ const Home = () => {
   );
 };
 
-export default withAuth(Home);
+// export default withAuth(Home);
+export default Home;
 
 // const encodedCategoryString = currentQuestion?.category;
 
