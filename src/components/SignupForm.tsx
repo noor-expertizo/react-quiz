@@ -98,8 +98,8 @@ const Signup: React.FC = () => {
   const router = useRouter();
   const { signupUser } = useAuthStore();
 
-  const handleSignup = (values: { username: string; password: string }) => {
-    signupUser(values.username, values.password);
+  const handleSignup = (values: { fullname:string; username: string; password: string }) => {
+    signupUser(values.fullname, values.username, values.password);
     router.push("/login");
   };
 
@@ -107,11 +107,30 @@ const Signup: React.FC = () => {
     <div className="max-w-md mx-auto p-6 bg-white rounded-md shadow-md mt-32">
       <h2 className="text-2xl font-bold mb-4">Signup</h2>
       <Formik
-        initialValues={{ username: "", password: "" }}
+        initialValues={{fullname: "", username: "", password: "" }}
         validationSchema={SignupSchema}
         onSubmit={handleSignup}
       >
         <Form>
+          <div className="mb-4">
+            <label
+              htmlFor="username"
+              className="block text-gray-700 font-bold mb-2"
+            >
+              Full Name
+            </label>
+            <Field
+              type="text"
+              id="fullname"
+              name="fullname"
+              className="w-full border rounded-md py-2 px-3"
+            />
+            <ErrorMessage
+              name="fullname"
+              component="div"
+              className="text-red-500 text-sm"
+            />
+          </div>
           <div className="mb-4">
             <label
               htmlFor="username"
