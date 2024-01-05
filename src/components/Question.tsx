@@ -14,7 +14,7 @@ interface QuestionInterface {
   setCountCorrectAnswers: (value: any) => void;
   setCountAttemptedAnswers: (value: any) => void;
   selectedOption: number | null;
-  setSelectedOption: (value:any) => void;
+  setSelectedOption: (value: any) => void;
 }
 
 const Question: React.FC<QuestionInterface> = ({
@@ -32,12 +32,11 @@ const Question: React.FC<QuestionInterface> = ({
 
   const currentQuestion = questions[currentQuestionIndex];
   let updatedArr: any = [];
-  // updatedArr.push(
-  //   currentQuestion?.correct_answer,
-  //   currentQuestion?.incorrect_answers
-  // );
-  // updatedArr = updatedArr.flatMap((x: any) => x);
-  updatedArr = [currentQuestion?.correct_answer, ...currentQuestion?.incorrect_answers]
+
+  updatedArr = [
+    currentQuestion?.correct_answer,
+    ...currentQuestion?.incorrect_answers,
+  ];
   console.log("upda", updatedArr);
   updatedArr =
     updatedArr &&
@@ -49,8 +48,6 @@ const Question: React.FC<QuestionInterface> = ({
     [currentQuestionIndex]
   );
   console.log(shuffledArray, "suffle");
-
-  let CorrectedAnswer: boolean = false;
 
   const handleAnswer = (selectedOptionIndex: number) => {
     setSelectedOption(selectedOptionIndex);
@@ -137,19 +134,10 @@ const Question: React.FC<QuestionInterface> = ({
             </div>
           </div>
           <div className="flex items-center justify-center">
-            {currentQuestionIndex === questions.length - 1 ? (
-              // <Button variant="success" onClick={() => restartQuiz()}>
-              //   Restart
-              // </Button>
-              <></>
-            ) : (
-              <>
-                {selectedOption !== null ? (
-                  <Button variant="success" onClick={() => handleNext()}>
-                    Next Question
-                  </Button>
-                ) : null}
-              </>
+            {selectedOption !== null && (
+              <Button variant="success" onClick={() => handleNext()}>
+                Next Question
+              </Button>
             )}
           </div>
         </div>
@@ -159,3 +147,10 @@ const Question: React.FC<QuestionInterface> = ({
 };
 
 export default Question;
+
+// let updatedArr: any = [];
+// updatedArr.push(
+//   currentQuestion?.correct_answer,
+//   currentQuestion?.incorrect_answers
+// );
+// updatedArr = updatedArr.flatMap((x: any) => x);

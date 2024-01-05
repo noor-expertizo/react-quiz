@@ -2,7 +2,6 @@
 
 import Loader from "@/components/Loader";
 import MultiProgressBar from "@/components/ProgressBar";
-import ProgressBar from "@/components/ProgressBar";
 import Question from "@/components/Question";
 import QuestionHeading from "@/components/QuestionHeading";
 import StarRating from "@/components/StarRating";
@@ -40,28 +39,13 @@ const Home = () => {
 
   const currentQuestion = questions[currentQuestionIndex];
 
-  let newRating = 0;
+  const difficultyStars: any = {
+    easy: 1,
+    medium: 2,
+    hard: 3,
+  };
 
-  if (currentQuestion?.difficulty === "easy") {
-    newRating = 1;
-  } else if (currentQuestion?.difficulty === "medium") {
-    newRating = 2;
-  } else if (currentQuestion?.difficulty === "hard") {
-    newRating = 3;
-  } else {
-    newRating = 5;
-  }
-
-  const encodedCategoryString = currentQuestion?.category;
-
-  let decodedCategoryString;
-  if (encodedCategoryString) {
-    decodedCategoryString = decodeURIComponent(
-      encodedCategoryString?.replace(/%\d+/g, " ")
-    );
-  } else {
-    decodedCategoryString = "";
-  }
+  const newRating = difficultyStars[currentQuestion?.difficulty] || 0;
 
   let progressBars = [
     { value: countCorrectAnswers, color: "black" },
@@ -109,7 +93,7 @@ const Home = () => {
                           )
                         }
                       />
-                      <StarRating totalStars={5} rating={newRating} />
+                      <StarRating totalStars={3} rating={newRating} />
                     </div>
                     <div>
                       <Question
@@ -133,7 +117,7 @@ const Home = () => {
                       {countCorrectAnswers} %
                     </p>
                     <p className="text-4xl font-medium mb-12">
-                      {countCorrectAnswers >= (questions.length / 2)
+                      {countCorrectAnswers >= questions.length / 2
                         ? "Success"
                         : "Fail"}
                     </p>
@@ -162,3 +146,16 @@ const Home = () => {
 };
 
 export default Home;
+
+
+
+// const encodedCategoryString = currentQuestion?.category;
+
+// let decodedCategoryString;
+// if (encodedCategoryString) {
+//   decodedCategoryString = decodeURIComponent(
+//     encodedCategoryString?.replace(/%\d+/g, " ")
+//   );
+// } else {
+//   decodedCategoryString = "";
+// }
