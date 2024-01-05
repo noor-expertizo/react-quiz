@@ -37,7 +37,7 @@ const Question: React.FC<QuestionInterface> = ({
     currentQuestion?.correct_answer,
     ...currentQuestion?.incorrect_answers,
   ];
-  console.log("upda", updatedArr);
+
   updatedArr =
     updatedArr &&
     updatedArr.length > 0 &&
@@ -70,18 +70,6 @@ const Question: React.FC<QuestionInterface> = ({
     setSelectedOption(null);
     setCurrentQuestionIndex(currentQuestionIndex + 1);
   };
-
-  const encodedString = currentQuestion?.question;
-  let decodedCategoryString;
-  if (encodedString) {
-    decodedCategoryString = decodeURIComponent(
-      encodedString?.replace(/%\d+/g, " ")
-    );
-  } else {
-    decodedCategoryString = "";
-  }
-
-  console.log(questions);
 
   return (
     <>

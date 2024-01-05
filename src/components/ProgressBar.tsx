@@ -50,7 +50,6 @@
 //   );
 // };
 
-// export default ProgressBar;
 import React from "react";
 import { Progress } from "reactstrap";
 
