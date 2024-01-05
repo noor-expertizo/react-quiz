@@ -89,7 +89,7 @@ const MultiProgressBar: React.FC<MultiProgressBarProps> = ({
           <Progress
             key={index}
             bar
-            value={bar.value}
+            value={bar.value * 100}
             style={{ backgroundColor: bar.color, width: bar.value }}
           />
         ))}
