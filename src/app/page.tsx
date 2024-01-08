@@ -20,8 +20,6 @@ const Home = () => {
     useState<number>(0);
   const [selectedOption, setSelectedOption] = useState<number | null>(null);
   const { questions, fetchQuestions } = useQuizStore();
-  const [progressBars, setProgressBar] =
-    useState<{ value: number; color: string }[]>();
 
   useEffect(() => {
     const fetchData = async () => {
@@ -57,14 +55,28 @@ const Home = () => {
     setCountAttemptedAnswers(0);
   };
 
-  const wronglyAnswered =( (countAttempetedAnswers - countCorrectAnswers) / questions.length ) * 100
-  const max =
+  const wronglyAnswered =
+    ((countAttempetedAnswers - countCorrectAnswers) / questions.length) * 100;
+  const maximumScore =
     100 -
     ((countAttempetedAnswers - countCorrectAnswers) / questions.length) * 100;
-  const ob = (countCorrectAnswers / questions.length) * 100;
-  const mini = ((countCorrectAnswers / questions.length) / (countAttempetedAnswers / questions.length) * 100)
+  const obtainedScore = (countCorrectAnswers / questions.length) * 100;
+  const minimumScore =
+    (countCorrectAnswers /
+      questions.length /
+      (countAttempetedAnswers / questions.length)) *
+    100;
 
-      console.log("max", max, "mini", mini, "ob", ob, "wrong", wronglyAnswered)
+  console.log(
+    "max",
+    maximumScore,
+    "mini",
+    minimumScore,
+    "ob",
+    obtainedScore,
+    "wrong",
+    wronglyAnswered
+  );
 
   return (
     <>
@@ -112,30 +124,11 @@ const Home = () => {
                   </div>
                   <div className="mt-4">
                     <MultiProgressBar
-                      obtainedScore={
-                        ob
-                      }
-                      totalScore={
-                       max
-                      }
-                      minimumScore={mini}
-                      wronglyAnswered={countAttempetedAnswers}
+                      obtainedScore={obtainedScore}
+                      totalScore={maximumScore}
+                      maximumScore={maximumScore}
+                      minimumScore={minimumScore}
                     />
-                    {/* <MultiProgressBar
-                      obtainedScore={
-                        (countCorrectAnswers / questions.length) * 100
-                      }
-                      minimumScore={
-                        (countAttempetedAnswers - countCorrectAnswers) * 100
-                      }
-                      totalScore={
-                        ((countCorrectAnswers +
-                          questions.length -
-                          countAttempetedAnswers) /
-                          questions.length) *
-                        100
-                      }
-                    /> */}
                   </div>
                 </>
               ) : (

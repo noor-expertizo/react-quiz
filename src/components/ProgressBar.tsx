@@ -4,14 +4,14 @@ interface ProgressBarProps {
   totalScore: number;
   obtainedScore: number;
   minimumScore: number;
-  wronglyAnswered: number;
+  maximumScore: number;
 }
 
 const MultiProgressBar: React.FC<ProgressBarProps> = ({
   totalScore,
   obtainedScore,
   minimumScore,
-  wronglyAnswered,
+  maximumScore,
 }) => {
   return (
     <div className="relative pt-1">
@@ -28,20 +28,20 @@ const MultiProgressBar: React.FC<ProgressBarProps> = ({
         </div>
       </div>
 
-      <div className="flex w-full mb-2 border-2 border-slate-900 rounded-md">
+      <div className="flex w-full mb-2 border-3 border-slate-900 rounded-md relative h-[40px]">
         <div
           style={{ width: `${obtainedScore}%` }}
-          className="rounded-l bg-black h-8 transition-width duration-500 ease-in-out"
+          className="rounded-l bg-black h-[34.5px] transition-width duration-500 ease-in-out absolute z-50"
         ></div>
 
         <div
-          style={{ width: `${minimumScore - obtainedScore }%` }}
-          className="bg-gray-500 h-8 transition-width duration-500 ease-in-out"
+          style={{ width: `${minimumScore}%` }}
+          className="bg-gray-500 rounded-l h-[34.5px] transition-width duration-500 ease-in-out absolute z-40"
         ></div>
 
         <div
-          style={{ width: `${(totalScore - minimumScore - obtainedScore) }%` }}
-          className="rounded-r bg-gray-400 h-8 transition-width duration-500 ease-in-out"
+          style={{ width: `${maximumScore}%` }}
+          className="rounded-r bg-gray-400 rounded-l h-[34.5px] transition-width duration-500 ease-in-out absolute z-30"
         ></div>
       </div>
     </div>
