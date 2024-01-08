@@ -41,14 +41,23 @@ const Home = () => {
   }, []);
 
   useEffect(() => {
+    // setProgressBar([
+    //   { value: countCorrectAnswers / questions.length, color: "black" },
+    //   { value: countCorrectAnswers / countAttempetedAnswers, color: "gray" },
+    //   {
+    //     value:
+    //       (countCorrectAnswers + questions.length - countAttempetedAnswers) /
+    //       questions.length,
+    //     color: "lightgray",
+    //   },
+    // ]);
     setProgressBar([
       { value: countCorrectAnswers / questions.length, color: "black" },
-      { value: countCorrectAnswers / countAttempetedAnswers, color: "gray" },
+      { value: countCorrectAnswers / countAttempetedAnswers, color: "#7d7c7c" },
       {
         value:
-          (countCorrectAnswers + questions.length - countAttempetedAnswers) /
-          questions.length,
-        color: "lightgray",
+          (countAttempetedAnswers  - countCorrectAnswers) / questions.length ,
+        color: "#b5aeae",
       },
     ]);
   }, [countCorrectAnswers, countAttempetedAnswers, selectedOption]);
@@ -116,11 +125,13 @@ const Home = () => {
               ) : (
                 <div className="text-center mb-10">
                   <p className="text-2xl font-medium">
-                    {((countCorrectAnswers / questions.length)*100).toFixed(0)} %
+                    {((countCorrectAnswers / questions.length) * 100).toFixed(
+                      0
+                    )}{" "}
+                    %
                   </p>
                   <p className="text-4xl font-medium mb-12">
-                    {(countCorrectAnswers) >=
-                    (questions.length / 2)
+                    {countCorrectAnswers >= questions.length / 2
                       ? "Success"
                       : "Fail"}
                   </p>
