@@ -22,7 +22,7 @@ const Home = () => {
   const [selectedOption, setSelectedOption] = useState<number | null>(null);
   const { questions, fetchQuestions } = useQuizStore();
   const [progressBars, setProgressBar] =
-    useState<{ value: number ; color: string }[]>();
+    useState<{ value: number; color: string }[]>();
 
   useEffect(() => {
     const fetchData = async () => {
@@ -43,9 +43,14 @@ const Home = () => {
 
   useEffect(() => {
     setProgressBar([
-      { value: countCorrectAnswers, color: "black" },
-      { value: countAttempetedAnswers, color: "gray" },
-      { value: questions.length, color: "lightgray" },
+      { value: countCorrectAnswers / countAttempetedAnswers, color: "black" },
+      { value: countAttempetedAnswers / questions.length, color: "gray" },
+      {
+        value:
+          (countCorrectAnswers + questions.length - countAttempetedAnswers) /
+          questions.length,
+        color: "lightgray",
+      },
     ]);
   }, [countCorrectAnswers, countAttempetedAnswers, selectedOption]);
 
@@ -89,9 +94,9 @@ const Home = () => {
                         total={questions.length}
                         title={
                           currentQuestion?.category &&
-                          decodeURIComponentForStringOrArray(
+                          (decodeURIComponentForStringOrArray(
                             currentQuestion?.category
-                          ) as string
+                          ) as string)
                         }
                       />
                       <StarRating totalStars={3} rating={newRating} />
@@ -133,7 +138,7 @@ const Home = () => {
                 <MultiProgressBar
                   bars={progressBars!!}
                   obtainedScore={countCorrectAnswers}
-                  totalScore={  100 - countAttempetedAnswers}
+                  totalScore={100 - countAttempetedAnswers}
                 />
               </div>
             </div>
