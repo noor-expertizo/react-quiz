@@ -58,7 +58,11 @@ export const useAuthStore = create<AuthStore>((set) => ({
       set({ isAuthenticated: true, user });
       alert("Login successful");
     } else {
-      set({ isAuthenticated: false, user: null, loginError: "Invalid username or password" });
+      set({
+        isAuthenticated: false,
+        user: null,
+        loginError: "Invalid username or password",
+      });
     }
   },
   signupUser: (fullname, username, password) => {
