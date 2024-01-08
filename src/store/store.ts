@@ -1,4 +1,4 @@
-import create from "zustand";
+import { create } from "zustand";
 
 interface QuestionItem {
   category: string;
@@ -20,8 +20,9 @@ export const useQuizStore = create<QuizStore>((set) => ({
       // const response = await fetch("http://localhost:3004/data");
       const response = await fetch("/.netlify/functions/questions");
       const data = await response.json();
-      set({ questions: data });
-      return data; // Return the fetched data
+      set({ questions: data.data });
+      // set({ questions: data });
+      return data;
     } catch (error) {
       console.error("Error fetching questions:", error);
       return [];
@@ -35,13 +36,18 @@ interface User {
 }
 
 interface AuthStore {
+  isAuthenticated: boolean;
   user: User | null;
   loginUser: (username: string, password: string) => void;
-  signupUser: (username: string, password: string) => void;
+  signupUser: (fullname: string, username: string, password: string) => void;
+  logoutUser: () => void;
+  loginError: string | null;
 }
 
 export const useAuthStore = create<AuthStore>((set) => ({
+  isAuthenticated: false,
   user: null,
+  loginError: null,
   loginUser: (username, password) => {
     const users = JSON.parse(localStorage.getItem("users") || "[]");
     const user = users.find(
@@ -49,16 +55,20 @@ export const useAuthStore = create<AuthStore>((set) => ({
     );
 
     if (user) {
-      set({ user });
+      set({ isAuthenticated: true, user });
       alert("Login successful");
     } else {
-      alert("Invalid username or password");
+      set({ isAuthenticated: false, user: null, loginError: "Invalid username or password" });
     }
   },
-  signupUser: (username, password) => {
+  signupUser: (fullname, username, password) => {
     const users = JSON.parse(localStorage.getItem("users") || "[]");
-    users.push({ username, password });
+    users.push({ fullname, username, password });
     localStorage.setItem("users", JSON.stringify(users));
     alert("Signup successful");
+  },
+  logoutUser: () => {
+    set({ isAuthenticated: false, user: null });
+    alert("Logout successful");
   },
 }));

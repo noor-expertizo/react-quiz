@@ -1,4 +1,4 @@
-"use client"; 
+"use client";
 
 import React from "react";
 import { Formik, Form, Field, ErrorMessage } from "formik";
@@ -15,39 +15,29 @@ const LoginForm: React.FC = () => {
   const router = useRouter();
   const { loginUser } = useAuthStore();
 
-
-  const handleLogin = async (values: { username: string; password: string }) => {
-    // const users = JSON.parse(localStorage.getItem("users") || "[]");
-    // const user = users.find(
-    //   (u: { username: string; password: string }) =>
-    //     u.username === values.username
-    // );
-
-    // if (user && user.password === values.password) {
-    //   alert("Login successful");
-    //   router.push("/home");
-    // } else {
-    //   alert("Invalid username or password");
-    // }
-
+  const handleLogin = async (values: {
+    username: string;
+    password: string;
+  }) => {
     try {
       await loginUser(values.username, values.password);
       const user = useAuthStore.getState().user;
 
       if (user) {
-        router.push('/home');
+        router.push("/");
       } else {
         alert("Invalid username or password");
       }
     } catch (error) {
       console.error("Error during login:", error);
       alert("An error occurred during login");
-    } 
+    }
   };
 
   return (
     <div className="max-w-md mx-auto p-6 bg-white rounded-md shadow-md mt-32">
       <h2 className="text-2xl font-bold mb-4">Login</h2>
+      
       <Formik
         initialValues={{ username: "", password: "" }}
         validationSchema={LoginSchema}
@@ -99,16 +89,15 @@ const LoginForm: React.FC = () => {
             >
               Login
             </button>
-            <button
-              onClick={() => router.push("/signup")}
-              className=" text-black  py-2 px-4 rounded-md hover:underline text-xs"
-            >
-             Do not have an account? Register
-
-            </button>
           </div>
         </Form>
       </Formik>
+      <button
+        onClick={() => router.push("/signup")}
+        className=" text-black  py-2 rounded-md hover:underline text-xs"
+      >
+        Do not have an account? Register
+      </button>
     </div>
   );
 };

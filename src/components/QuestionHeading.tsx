@@ -1,11 +1,7 @@
-"use client"; // This is a client component 
+"use client"; 
 import React from "react";
+import { QuestionHeading } from "./types";
 
-interface QuestionHeading {
-  count: number;
-  total: number;
-  title: string
-}
 
  const QuestionHeading:React.FC<QuestionHeading> = ({count, total, title}: QuestionHeading) => {
   const displayCount = Math.min(count, total);

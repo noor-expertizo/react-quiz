@@ -1,22 +1,14 @@
 import React from "react";
+import { Progress } from "reactstrap";
+import { MultiProgressBarProps } from "./types";
 
-interface ProgressBarProps {
-  totalScore: number;
-  obtainedScore: number;
-  minimumScore: number;
-}
-
-const ProgressBar: React.FC<ProgressBarProps> = ({
+const MultiProgressBar: React.FC<MultiProgressBarProps> = ({
+  bars,
   totalScore,
   obtainedScore,
-  minimumScore,
 }) => {
-  const totalWidth = (totalScore / 100) * 100;
-  const obtainedWidth = (obtainedScore / totalScore) * 100;
-  const minimumWidth = (minimumScore / totalScore) * 100;
-
   return (
-    <div className="relative pt-1">
+    <div>
       <div className="flex mb-2 items-center justify-between">
         <div>
           <span className="text-xs font-semibold inline-block py-1 px-2 uppercase rounded-full text-slate-600 bg-white">
@@ -29,26 +21,18 @@ const ProgressBar: React.FC<ProgressBarProps> = ({
           </span>
         </div>
       </div>
-
-      {/* Progress Bar */}
-      <div className="flex w-full mb-2 border-2 border-slate-500 rounded-md">
-        <div
-          style={{ width: `${minimumWidth}%` }}
-          className="rounded-l bg-black h-6"
-        ></div>
-        <div
-          style={{ width: `${obtainedWidth - minimumWidth}%` }}
-          className="bg-gray-600 h-6"
-        ></div>
-        <div
-          style={{ width: `${totalWidth - obtainedWidth}%` }}
-          className="rounded-r bg-slate-300 h-6"
-        ></div>
-      </div>
-
- 
+      <Progress multi style={{ height: "24px", border: "1px solid black" }}>
+        {bars.map((bar, index) => (
+          <Progress
+            key={index}
+            bar
+            value={bar.value * 100}
+            style={{ backgroundColor: bar.color, width: bar.value }}
+          />
+        ))}
+      </Progress>
     </div>
   );
 };
 
-export default ProgressBar;
+export default MultiProgressBar;
