@@ -41,7 +41,7 @@ const MultiProgressBar: React.FC<ProgressBarProps> = ({
 
         <div
           style={{ width: `${maximumScore}%` }}
-          className="rounded-r bg-gray-400 rounded-l h-[34.5px] transition-width duration-500 ease-in-out absolute z-30"
+          className=" bg-gray-400 rounded-l h-[34.5px] transition-width duration-500 ease-in-out absolute z-30"
         ></div>
       </div>
     </div>
