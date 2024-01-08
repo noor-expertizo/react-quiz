@@ -51,12 +51,20 @@ const Home = () => {
     //     color: "lightgray",
     //   },
     // ]);
+
+    const remainingQuestions = questions.length - countAttempetedAnswers;
+    const maxScoreValue =
+      remainingQuestions > 1
+        ? countCorrectAnswers / (countAttempetedAnswers + 1)
+        : 1;
+
     setProgressBar([
       { value: countCorrectAnswers / questions.length, color: "black" },
       { value: countCorrectAnswers / countAttempetedAnswers, color: "#7d7c7c" },
       {
-        value:
-          (countAttempetedAnswers  - countCorrectAnswers) / questions.length ,
+        // value:
+        //   ((countAttempetedAnswers  - countCorrectAnswers) -  questions.length) * 10 ,
+        value: maxScoreValue,
         color: "#b5aeae",
       },
     ]);
@@ -94,34 +102,52 @@ const Home = () => {
           ) : (
             <div>
               {currentQuestionIndex !== questions.length - 1 ? (
-                <div className="px-8">
-                  <div className="mb-8">
-                    <QuestionHeading
-                      count={currentQuestionIndex + 1}
-                      total={questions.length}
-                      title={
-                        currentQuestion?.category &&
-                        (decodeURIComponentForStringOrArray(
-                          currentQuestion?.category
-                        ) as string)
-                      }
-                    />
-                    <StarRating totalStars={3} rating={newRating} />
+                <>
+                  <div className="px-8">
+                    <div className="mb-8">
+                      <QuestionHeading
+                        count={currentQuestionIndex + 1}
+                        total={questions.length}
+                        title={
+                          currentQuestion?.category &&
+                          (decodeURIComponentForStringOrArray(
+                            currentQuestion?.category
+                          ) as string)
+                        }
+                      />
+                      <StarRating totalStars={3} rating={newRating} />
+                    </div>
+                    <div>
+                      <Question
+                        currentQuestionIndex={currentQuestionIndex}
+                        setCurrentQuestionIndex={setCurrentQuestionIndex}
+                        questions={questions}
+                        countAttempetedAnswers={countAttempetedAnswers}
+                        countCorrectAnswers={countCorrectAnswers}
+                        setCountAttemptedAnswers={setCountAttemptedAnswers}
+                        setCountCorrectAnswers={setCountCorrectAnswers}
+                        selectedOption={selectedOption}
+                        setSelectedOption={setSelectedOption}
+                      />
+                    </div>
                   </div>
-                  <div>
-                    <Question
-                      currentQuestionIndex={currentQuestionIndex}
-                      setCurrentQuestionIndex={setCurrentQuestionIndex}
-                      questions={questions}
-                      countAttempetedAnswers={countAttempetedAnswers}
-                      countCorrectAnswers={countCorrectAnswers}
-                      setCountAttemptedAnswers={setCountAttemptedAnswers}
-                      setCountCorrectAnswers={setCountCorrectAnswers}
-                      selectedOption={selectedOption}
-                      setSelectedOption={setSelectedOption}
+                  <div className="mt-4">
+                    <MultiProgressBar
+                      bars={progressBars!!}
+                      obtainedScore={(
+                        (countCorrectAnswers / questions.length) *
+                        100
+                      ).toFixed(0)}
+                      totalScore={(
+                        ((countCorrectAnswers +
+                          questions.length -
+                          countAttempetedAnswers) /
+                          questions.length) *
+                        100
+                      ).toFixed(0)}
                     />
                   </div>
-                </div>
+                </>
               ) : (
                 <div className="text-center mb-10">
                   <p className="text-2xl font-medium">
@@ -141,22 +167,6 @@ const Home = () => {
                   </Button>
                 </div>
               )}
-              <div className="mt-4">
-                <MultiProgressBar
-                  bars={progressBars!!}
-                  obtainedScore={(
-                    (countCorrectAnswers / questions.length) *
-                    100
-                  ).toFixed(0)}
-                  totalScore={(
-                    ((countCorrectAnswers +
-                      questions.length -
-                      countAttempetedAnswers) /
-                      questions.length) *
-                    100
-                  ).toFixed(0)}
-                />
-              </div>
             </div>
           )}
         </div>
