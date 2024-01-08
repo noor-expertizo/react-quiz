@@ -1,14 +1,22 @@
 import React from "react";
-import { Progress } from "reactstrap";
-import { MultiProgressBarProps } from "./types";
 
-const MultiProgressBar: React.FC<MultiProgressBarProps> = ({
-  bars,
+interface ProgressBarProps {
+  totalScore: number;
+  obtainedScore: number;
+  minimumScore: number;
+}
+
+const MultiProgressBar: React.FC<ProgressBarProps> = ({
   totalScore,
   obtainedScore,
+  minimumScore,
 }) => {
+  console.log("ts", totalScore);
+  console.log("ob", obtainedScore);
+  console.log("min", minimumScore);
+
   return (
-    <div>
+    <div className="relative pt-1">
       <div className="flex mb-2 items-center justify-between">
         <div>
           <span className="text-xs font-semibold inline-block py-1 px-2 uppercase rounded-full text-slate-600 bg-white">
@@ -17,20 +25,25 @@ const MultiProgressBar: React.FC<MultiProgressBarProps> = ({
         </div>
         <div className="text-right">
           <span className="text-xs font-semibold inline-block text-slate-600">
-            Max Score: {totalScore}%
+            Max Score: {totalScore.toFixed(0)}%
           </span>
         </div>
       </div>
-      <Progress multi style={{ height: "24px", border: "1px solid black" }}>
-        {bars.map((bar, index) => (
-          <Progress
-            key={index}
-            bar
-            value={bar.value * 100}
-            style={{ backgroundColor: bar.color, width: bar.value }}
-          />
-        ))}
-      </Progress>
+
+      <div className="flex w-full mb-2 border-2 border-slate-900 rounded-md">
+        <div
+          style={{ width: `${obtainedScore}%` }}
+          className="rounded-l bg-black h-8 transition-width duration-500 ease-in-out"
+        ></div>
+        <div
+          style={{ width: `${totalScore}%` }}
+          className=" bg-gray-500 h-8 transition-width duration-500 ease-in-out"
+        ></div>
+        <div
+          style={{ width: `${minimumScore}%` }}
+          className="bg-gray-300 rounded-r h-8 transition-width duration-500 ease-in-out"
+        ></div>
+      </div>
     </div>
   );
 };

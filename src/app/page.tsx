@@ -40,36 +40,6 @@ const Home = () => {
     return () => clearTimeout(timeout);
   }, []);
 
-  useEffect(() => {
-    // setProgressBar([
-    //   { value: countCorrectAnswers / questions.length, color: "black" },
-    //   { value: countCorrectAnswers / countAttempetedAnswers, color: "gray" },
-    //   {
-    //     value:
-    //       (countCorrectAnswers + questions.length - countAttempetedAnswers) /
-    //       questions.length,
-    //     color: "lightgray",
-    //   },
-    // ]);
-
-    const remainingQuestions = questions.length - countAttempetedAnswers;
-    const maxScoreValue =
-      remainingQuestions > 1
-        ? countCorrectAnswers / (countAttempetedAnswers + 1)
-        : 1;
-
-    setProgressBar([
-      { value: countCorrectAnswers / questions.length, color: "black" },
-      { value: countCorrectAnswers / countAttempetedAnswers, color: "#7d7c7c" },
-      {
-        // value:
-        //   ((countAttempetedAnswers  - countCorrectAnswers) -  questions.length) * 10 ,
-        value: maxScoreValue,
-        color: "#b5aeae",
-      },
-    ]);
-  }, [countCorrectAnswers, countAttempetedAnswers, selectedOption]);
-
   const currentQuestion = questions[currentQuestionIndex];
 
   const difficultyStars: { [key: string]: number } = {
@@ -133,18 +103,19 @@ const Home = () => {
                   </div>
                   <div className="mt-4">
                     <MultiProgressBar
-                      bars={progressBars!!}
-                      obtainedScore={(
-                        (countCorrectAnswers / questions.length) *
-                        100
-                      ).toFixed(0)}
-                      totalScore={(
+                      obtainedScore={
+                        (countCorrectAnswers / questions.length) * 100
+                      }
+                      minimumScore={
+                        (countAttempetedAnswers - countCorrectAnswers) * 100
+                      }
+                      totalScore={
                         ((countCorrectAnswers +
                           questions.length -
                           countAttempetedAnswers) /
                           questions.length) *
                         100
-                      ).toFixed(0)}
+                      }
                     />
                   </div>
                 </>
