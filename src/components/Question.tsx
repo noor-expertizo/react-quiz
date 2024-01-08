@@ -22,22 +22,42 @@ const Question: React.FC<QuestionInterface> = ({
   const [isSelected, setIsSelected] = useState<number>(0);
 
   const currentQuestion = questions[currentQuestionIndex];
-  let updatedArr: any = [];
+  console.log("q", questions);
+  
+  // let updatedArr: string[] | undefined = [];
 
-  updatedArr = [
-    currentQuestion?.correct_answer,
-    ...currentQuestion?.incorrect_answers,
+  // updatedArr = [
+  //   currentQuestion?.correct_answer,
+  //   ...currentQuestion?.incorrect_answers,
+  // ];
+
+  // updatedArr =
+  // updatedArr &&
+  // updatedArr.length > 0 &&
+  // decodeURIComponentForStringOrArray(updatedArr);
+
+  // const shuffledArray = useMemo(
+  //   () => shuffleArray([...updatedArr]),
+  //   [currentQuestionIndex]
+  // );
+  const initialArr: string[] | undefined = [
+    currentQuestion?.correct_answer as string,
+    ...(currentQuestion?.incorrect_answers || []),
   ];
-
-  updatedArr =
-    updatedArr &&
-    updatedArr.length > 0 &&
-    decodeURIComponentForStringOrArray(updatedArr);
-
-  const shuffledArray = useMemo(
-    () => shuffleArray([...updatedArr]),
-    [currentQuestionIndex]
+  
+  const updatedArr: boolean | string[] | undefined = useMemo(
+    () =>
+      initialArr &&
+      initialArr.length > 0 &&
+      (decodeURIComponentForStringOrArray(initialArr)! as string[]),
+    [initialArr]
   );
+  
+
+  const shuffledArray = useMemo(() => shuffleArray([...(updatedArr || [])]), [
+    currentQuestionIndex,
+    updatedArr,
+  ]);
   console.log(shuffledArray, "suffle");
 
   const handleAnswer = (selectedOptionIndex: number) => {

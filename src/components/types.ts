@@ -6,20 +6,20 @@ export interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
 }
 
 export interface ProgressBar {
-  value: number ;
+  value: number;
   color: string;
 }
 
 export interface MultiProgressBarProps {
   bars: ProgressBar[];
-  totalScore: number;
-  obtainedScore: number;
+  totalScore: number | string;
+  obtainedScore: number | string;
 }
 
 export interface QuestionInterface {
   currentQuestionIndex: number;
   setCurrentQuestionIndex: (value: number) => void;
-  questions: any;
+  questions: any[];
   countCorrectAnswers: number;
   countAttempetedAnswers: number;
   setCountCorrectAnswers: (value: number) => void;

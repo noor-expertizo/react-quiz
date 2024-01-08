@@ -43,7 +43,7 @@ const Home = () => {
   useEffect(() => {
     setProgressBar([
       { value: countCorrectAnswers / countAttempetedAnswers, color: "black" },
-      { value: countAttempetedAnswers / questions.length, color: "gray" },
+      { value: countCorrectAnswers / questions.length, color: "gray" },
       {
         value:
           (countCorrectAnswers + questions.length - countAttempetedAnswers) /
@@ -136,8 +136,9 @@ const Home = () => {
               <div className="mt-4">
                 <MultiProgressBar
                   bars={progressBars!!}
-                  obtainedScore={countCorrectAnswers}
-                  totalScore={100 - countAttempetedAnswers}
+                  obtainedScore={((countCorrectAnswers / questions.length) * 100).toFixed(0)}
+                  totalScore={(((countCorrectAnswers + questions.length - countAttempetedAnswers) /
+                  questions.length) * 100).toFixed(0)}
                 />
               </div>
             </div>
