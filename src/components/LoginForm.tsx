@@ -13,7 +13,7 @@ const LoginSchema = Yup.object().shape({
 
 const LoginForm: React.FC = () => {
   const router = useRouter();
-  const { loginUser } = useAuthStore();
+  const { loginUser, loginError } = useAuthStore();
 
   const handleLogin = async (values: {
     username: string;
@@ -37,6 +37,9 @@ const LoginForm: React.FC = () => {
   return (
     <div className="max-w-md mx-auto p-6 bg-white rounded-md shadow-md mt-32">
       <h2 className="text-2xl font-bold mb-4">Login</h2>
+      {loginError && (
+        <div className="mb-4 text-red-500 text-sm">{loginError}</div>
+      )}
       <Formik
         initialValues={{ username: "", password: "" }}
         validationSchema={LoginSchema}

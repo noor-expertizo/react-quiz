@@ -11,7 +11,6 @@ import { useQuizStore } from "@/store/store";
 import { useEffect, useState } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import Button from "@/components/Button";
-import withAuth from "@/helpers/withAuth";
 
 const Home = () => {
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState<number>(0);
