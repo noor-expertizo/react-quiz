@@ -35,7 +35,7 @@ const MultiProgressBar: React.FC<ProgressBarProps> = ({
         ></div>
 
         <div
-          style={{ width: `${minimumScore}%` }}
+          style={{ width: `${minimumScore - obtainedScore }%` }}
           className="bg-gray-500 h-8 transition-width duration-500 ease-in-out"
         ></div>
 
