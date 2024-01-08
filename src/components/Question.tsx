@@ -6,8 +6,6 @@ import {
 } from "@/helpers/helpers";
 import { QuestionInterface } from "./types";
 
-
-
 const Question: React.FC<QuestionInterface> = ({
   currentQuestionIndex,
   setCurrentQuestionIndex,
@@ -22,29 +20,12 @@ const Question: React.FC<QuestionInterface> = ({
   const [isSelected, setIsSelected] = useState<number>(0);
 
   const currentQuestion = questions[currentQuestionIndex];
-  console.log("q", questions);
-  
-  // let updatedArr: string[] | undefined = [];
 
-  // updatedArr = [
-  //   currentQuestion?.correct_answer,
-  //   ...currentQuestion?.incorrect_answers,
-  // ];
-
-  // updatedArr =
-  // updatedArr &&
-  // updatedArr.length > 0 &&
-  // decodeURIComponentForStringOrArray(updatedArr);
-
-  // const shuffledArray = useMemo(
-  //   () => shuffleArray([...updatedArr]),
-  //   [currentQuestionIndex]
-  // );
   const initialArr: string[] | undefined = [
     currentQuestion?.correct_answer as string,
     ...(currentQuestion?.incorrect_answers || []),
   ];
-  
+
   const updatedArr: boolean | string[] | undefined = useMemo(
     () =>
       initialArr &&
@@ -52,13 +33,11 @@ const Question: React.FC<QuestionInterface> = ({
       (decodeURIComponentForStringOrArray(initialArr)! as string[]),
     [initialArr]
   );
-  
 
-  const shuffledArray = useMemo(() => shuffleArray([...(updatedArr || [])]), [
-    currentQuestionIndex,
-    updatedArr,
-  ]);
-  console.log(shuffledArray, "suffle");
+  const shuffledArray = useMemo(
+    () => shuffleArray([...(updatedArr || [])]),
+    [currentQuestionIndex, updatedArr]
+  );
 
   const handleAnswer = (selectedOptionIndex: number) => {
     setSelectedOption(selectedOptionIndex);

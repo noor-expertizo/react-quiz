@@ -85,7 +85,6 @@ const Home = () => {
           ) : (
             <div>
               {currentQuestionIndex !== questions.length - 1 ? (
-                <>
                   <div className="px-8">
                     <div className="mb-8">
                       <QuestionHeading
@@ -114,9 +113,7 @@ const Home = () => {
                       />
                     </div>
                   </div>
-                </>
               ) : (
-                <>
                   <div className="text-center mb-10">
                     <p className="text-2xl font-medium">
                       {countCorrectAnswers} %
@@ -131,14 +128,21 @@ const Home = () => {
                       Restart
                     </Button>
                   </div>
-                </>
               )}
               <div className="mt-4">
                 <MultiProgressBar
                   bars={progressBars!!}
-                  obtainedScore={((countCorrectAnswers / questions.length) * 100).toFixed(0)}
-                  totalScore={(((countCorrectAnswers + questions.length - countAttempetedAnswers) /
-                  questions.length) * 100).toFixed(0)}
+                  obtainedScore={(
+                    (countCorrectAnswers / questions.length) *
+                    100
+                  ).toFixed(0)}
+                  totalScore={(
+                    ((countCorrectAnswers +
+                      questions.length -
+                      countAttempetedAnswers) /
+                      questions.length) *
+                    100
+                  ).toFixed(0)}
                 />
               </div>
             </div>
