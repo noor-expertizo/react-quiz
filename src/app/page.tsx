@@ -85,49 +85,49 @@ const Home = () => {
           ) : (
             <div>
               {currentQuestionIndex !== questions.length - 1 ? (
-                  <div className="px-8">
-                    <div className="mb-8">
-                      <QuestionHeading
-                        count={currentQuestionIndex + 1}
-                        total={questions.length}
-                        title={
-                          currentQuestion?.category &&
-                          (decodeURIComponentForStringOrArray(
-                            currentQuestion?.category
-                          ) as string)
-                        }
-                      />
-                      <StarRating totalStars={3} rating={newRating} />
-                    </div>
-                    <div>
-                      <Question
-                        currentQuestionIndex={currentQuestionIndex}
-                        setCurrentQuestionIndex={setCurrentQuestionIndex}
-                        questions={questions}
-                        countAttempetedAnswers={countAttempetedAnswers}
-                        countCorrectAnswers={countCorrectAnswers}
-                        setCountAttemptedAnswers={setCountAttemptedAnswers}
-                        setCountCorrectAnswers={setCountCorrectAnswers}
-                        selectedOption={selectedOption}
-                        setSelectedOption={setSelectedOption}
-                      />
-                    </div>
+                <div className="px-8">
+                  <div className="mb-8">
+                    <QuestionHeading
+                      count={currentQuestionIndex + 1}
+                      total={questions.length}
+                      title={
+                        currentQuestion?.category &&
+                        (decodeURIComponentForStringOrArray(
+                          currentQuestion?.category
+                        ) as string)
+                      }
+                    />
+                    <StarRating totalStars={3} rating={newRating} />
                   </div>
+                  <div>
+                    <Question
+                      currentQuestionIndex={currentQuestionIndex}
+                      setCurrentQuestionIndex={setCurrentQuestionIndex}
+                      questions={questions}
+                      countAttempetedAnswers={countAttempetedAnswers}
+                      countCorrectAnswers={countCorrectAnswers}
+                      setCountAttemptedAnswers={setCountAttemptedAnswers}
+                      setCountCorrectAnswers={setCountCorrectAnswers}
+                      selectedOption={selectedOption}
+                      setSelectedOption={setSelectedOption}
+                    />
+                  </div>
+                </div>
               ) : (
-                  <div className="text-center mb-10">
-                    <p className="text-2xl font-medium">
-                      {countCorrectAnswers} %
-                    </p>
-                    <p className="text-4xl font-medium mb-12">
-                      {countCorrectAnswers >= questions.length / 2
-                        ? "Success"
-                        : "Fail"}
-                    </p>
+                <div className="text-center mb-10">
+                  <p className="text-2xl font-medium">
+                    {countCorrectAnswers} %
+                  </p>
+                  <p className="text-4xl font-medium mb-12">
+                    {countCorrectAnswers >= questions.length / 2
+                      ? "Success"
+                      : "Fail"}
+                  </p>
 
-                    <Button variant="success" onClick={() => restartQuiz()}>
-                      Restart
-                    </Button>
-                  </div>
+                  <Button variant="success" onClick={() => restartQuiz()}>
+                    Restart
+                  </Button>
+                </div>
               )}
               <div className="mt-4">
                 <MultiProgressBar

@@ -36,7 +36,7 @@ const Question: React.FC<QuestionInterface> = ({
 
   const shuffledArray = useMemo(
     () => shuffleArray([...(updatedArr || [])]),
-    [currentQuestionIndex, updatedArr]
+    [currentQuestionIndex]
   );
 
   const handleAnswer = (selectedOptionIndex: number) => {
