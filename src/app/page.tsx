@@ -80,8 +80,8 @@ const Home = () => {
 
   return (
     <>
-      <div className="max-w-3xl mx-auto mt-4 pb-6 border-2 border-gray-400 rounded shadow-lg">
-        <div className="mb-8">
+      <div className="max-w-2xl mx-auto mt-1 pb-6 border-2 border-gray-400 rounded shadow-lg">
+        <div className="mb-4">
           <StepperProgressBar
             currentQuestionIndex={currentQuestionIndex}
             totalQuestions={questions.length}
@@ -95,7 +95,7 @@ const Home = () => {
               {currentQuestionIndex !== questions.length - 1 ? (
                 <>
                   <div className="px-8">
-                    <div className="mb-8">
+                    <div className="mb-2">
                       <QuestionHeading
                         count={currentQuestionIndex + 1}
                         total={questions.length}
@@ -122,7 +122,7 @@ const Home = () => {
                       />
                     </div>
                   </div>
-                  <div className="mt-4">
+                  <div className="mt-2">
                     <MultiProgressBar
                       obtainedScore={obtainedScore}
                       totalScore={maximumScore}
@@ -132,14 +132,14 @@ const Home = () => {
                   </div>
                 </>
               ) : (
-                <div className="text-center mb-10">
+                <div className="text-center mb-2">
                   <p className="text-2xl font-medium">
                     {((countCorrectAnswers / questions.length) * 100).toFixed(
                       0
                     )}
                     %
                   </p>
-                  <p className="text-4xl font-medium mb-12">
+                  <p className="text-4xl font-medium mb-4">
                     {countCorrectAnswers >= questions.length / 2
                       ? "Success"
                       : "Fail"}

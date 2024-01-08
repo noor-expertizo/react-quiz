@@ -64,7 +64,7 @@ const Question: React.FC<QuestionInterface> = ({
       <div className="flex flex-col items-center">
         <div>
           <div>
-            <p className="text-black font-medium text-lg leading-5 max-w-lg mb-10">
+            <p className="text-black font-medium text-lg leading-5 max-w-lg mb-4">
               {currentQuestion?.question &&
                 decodeURIComponentForStringOrArray(currentQuestion?.question)}
             </p>
@@ -100,7 +100,7 @@ const Question: React.FC<QuestionInterface> = ({
             </div>
 
             <div className="flex flex-col justify-center items-center">
-              <p className="text-black font-medium text-2xl leading-5 max-w-lg my-12">
+              <p className="text-black font-medium text-2xl leading-5 max-w-lg my-8">
                 {selectedOption !== null
                   ? isSelected === 1
                     ? "Correct"
